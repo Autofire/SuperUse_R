@@ -1,0 +1,4 @@
+Not all tools used in this project use the GNU General Public License v3.0.
+
+If any folder has another LICENSE file in it, that license overrules the one in
+the LICENSE.project file.
