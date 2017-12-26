@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using Characters.Bodies;
+
 namespace Characters.Brains.Players {
 
 	[CreateAssetMenu(menuName="Brains/Player Brain")]
@@ -13,18 +15,13 @@ namespace Characters.Brains.Players {
 
 
 		override public void Initialize(Bodies.BaseBody body) {
-			body.Remember<float>("Adder", 0f);
 		}
 
-		override public void Think(Bodies.BaseBody body) {
+		override public void FixedThink(Bodies.BaseBody body) {
 
-			float adder = body.Remember<float>("Adder");
-
-			adder += Input.GetAxis(xAxisName);
-
-			Debug.Log(adder);
-
-			body.Remember<float>("Adder", adder);
+			if(body is IMoveX) {
+				((IMoveX)body).MoveX(Input.GetAxis(xAxisName));
+			}
 		}
 
 		/*

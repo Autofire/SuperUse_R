@@ -11,6 +11,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0a9fad0c0a8d41638df8c0d33d4450c, type: 3}
   m_Name: TestPlayerBrain
   m_EditorClassIdentifier: 
-  xAxisName: 
-  yAxisName: 
-  jumpButtonName: 
+  xAxisName: Horizontal
+  yAxisName: Vertical
+  jumpButtonName: Fire1

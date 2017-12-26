@@ -27,7 +27,7 @@ namespace Characters.Bodies {
 
 	public interface IMoveX {
 		/// <summary>
-		/// Moves the body in the X direction.
+		/// Moves the body in the X direction. This should get called on FixedUpdate.
 		/// </summary>
 		/// <param name="magnitude">Magnitude of the movement; can be between -1 and 1, inclusive.</param>
 		void MoveX(float magnitude);
@@ -35,7 +35,7 @@ namespace Characters.Bodies {
 
 	public interface IMoveY {
 		/// <summary>
-		/// Moves the body in the Y direction.
+		/// Moves the body in the Y direction. This should get called on FixedUpdate.
 		/// </summary>
 		/// <param name="magnitude">Magnitude of the movement; can be between -1 and 1, inclusive.</param>
 		void MoveY(float magnitude);
