@@ -288,7 +288,7 @@ GameObject:
   - component: {fileID: 952313781}
   - component: {fileID: 952313783}
   - component: {fileID: 952313782}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -322,7 +322,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 27d7c2861488b463b9d4615173c08690, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -592,11 +592,80 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1740559148}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -3.28, z: 0}
-  m_LocalScale: {x: 11.8111105, y: 1, z: 1}
+  m_LocalPosition: {x: 0.81, y: -4, z: 0}
+  m_LocalScale: {x: 11, y: 3, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1749742974
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1749742978}
+  - component: {fileID: 1749742975}
+  - component: {fileID: 1749742977}
+  - component: {fileID: 1749742976}
+  m_Layer: 8
+  m_Name: Footbox
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!65 &1749742975
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1749742974}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 0.01, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1749742976
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1749742974}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15bcb547245ba41e9ac1f5a2601d8415, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!54 &1749742977
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1749742974}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!4 &1749742978
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1749742974}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.505, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1859607424}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1859607423
 GameObject:
@@ -609,7 +678,7 @@ GameObject:
   - component: {fileID: 1859607425}
   - component: {fileID: 1859607426}
   - component: {fileID: 1859607427}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: TestVirus
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -623,10 +692,11 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1859607423}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.64, z: 0}
+  m_LocalPosition: {x: 0, y: 4.91, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 952313781}
+  - {fileID: 1749742978}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -654,9 +724,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _brain: {fileID: 11400000, guid: dda89a442de214bfd8f06568ddab0b3c, type: 2}
-  xSpeed: 1
-  normalGravity: 9.8
-  jumpGravity: 4.4
+  footBox: {fileID: 1749742976}
+  boundingBox: {fileID: 1859607425}
+  collisionMask:
+    serializedVersion: 2
+    m_Bits: 4294967039
+  xSpeed: 5
+  normalGravity: -9.8
+  jumpGravity: -4.4
 --- !u!54 &1859607427
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -664,9 +739,9 @@ Rigidbody:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1859607423}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 0.001
   m_Drag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0
   m_UseGravity: 0
   m_IsKinematic: 1
   m_Interpolate: 0

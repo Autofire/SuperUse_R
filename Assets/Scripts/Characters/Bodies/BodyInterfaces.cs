@@ -12,6 +12,14 @@ namespace Characters.Bodies {
 		bool IsStanding();
 	}
 
+	public interface IBumpHead {
+		/// <summary>
+		/// Determines whether this instance is bumping head. (This is the default description, and it's glorious.)
+		/// </summary>
+		/// <returns><c>true</c> if this instance is bumping head; otherwise, <c>false</c>.</returns>
+		bool IsBumpingHead();
+	}
+
 	public interface IJump {
 		/// <summary>
 		/// Initiate a jump.
