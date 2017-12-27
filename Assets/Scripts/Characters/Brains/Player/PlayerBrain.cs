@@ -17,10 +17,25 @@ namespace Characters.Brains.Players {
 		override public void Initialize(Bodies.BaseBody body) {
 		}
 
+		override public void Think(Bodies.BaseBody body) {
+			IJump bodyJump = body as IJump;
+
+			if(bodyJump != null) {
+				if(Input.GetButtonDown(jumpButtonName)) {
+					bodyJump.JumpBegin();
+				}
+				else if(Input.GetButtonUp(jumpButtonName)) {
+					bodyJump.JumpEnd();
+				}
+			}
+		}
+
 		override public void FixedThink(Bodies.BaseBody body) {
 
-			if(body is IMoveX) {
-				((IMoveX)body).MoveX(Input.GetAxis(xAxisName));
+			IMoveX bodyMoveX = body as IMoveX;
+
+			if(bodyMoveX != null) {
+				bodyMoveX.MoveX(Input.GetAxis(xAxisName));
 			}
 		}
 

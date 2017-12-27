@@ -729,9 +729,10 @@ MonoBehaviour:
   collisionMask:
     serializedVersion: 2
     m_Bits: 4294967039
-  xSpeed: 5
+  walkingSpeed: 1
   normalGravity: -9.8
-  jumpGravity: -4.4
+  jumpHeight: 3
+  jumpPeekDist: 3
 --- !u!54 &1859607427
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -739,7 +740,7 @@ Rigidbody:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1859607423}
   serializedVersion: 2
-  m_Mass: 0.001
+  m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0
   m_UseGravity: 0

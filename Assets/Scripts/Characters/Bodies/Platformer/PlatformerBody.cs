@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace Characters.Bodies {
 
-	public class PlatformerBody : BaseBody, IMoveX, IStand {
+	public class PlatformerBody : BaseBody, IMoveX, IStand, IJump {
 
 		[SerializeField] TriggerObserver footBox;
 		[SerializeField] BoxCollider boundingBox;
@@ -12,16 +13,38 @@ namespace Characters.Bodies {
 
 		[Space(10)]
 
-		[SerializeField] float xSpeed = 1f;
-
-		// TODO make these vectors
+		[SerializeField] float walkingSpeed = 1f;
 		[SerializeField] float normalGravity = -9.8f;
-		[SerializeField] float jumpGravity = -4.4f;
+
+		[Space(10)]
+		[Tooltip("How high the character goes at the peek of a full jump. Making this zero disables jumps.")]
+		[SerializeField] float jumpHeight;
+		[Tooltip("How far the character goes at the peek of a full jump. Making this zero disables jumps.")]
+		[SerializeField] float jumpPeekDist;
 
 		Rigidbody rb;
 
 		Vector3 velocity;
 		float gravity;
+		bool isJumping;
+
+		/// <summary>
+		/// Gets the magnitude of the jump velocity.
+		/// </summary>
+		/// <value>The jump velocity.</value>
+		/// <seealso cref="https://www.youtube.com/watch?v=hG9SzQxaCm8"/>
+		float jumpVelocity {
+			get { return 2 * jumpHeight * walkingSpeed / jumpPeekDist; }
+		}
+
+		/// <summary>
+		/// Gets the magnitude of the jump gravity.
+		/// </summary>
+		/// <value>The jump gravity.</value>
+		/// <seealso cref="https://www.youtube.com/watch?v=hG9SzQxaCm8"/>
+		float jumpGravity {
+			get { return -2 * jumpHeight * walkingSpeed * walkingSpeed / (jumpPeekDist * jumpPeekDist); }
+		}
 
 		#region Unity events
 		override protected void Awake() {
@@ -31,6 +54,13 @@ namespace Characters.Bodies {
 
 			velocity = Vector3.zero;
 			gravity = normalGravity;
+		}
+
+		override protected void Update() {
+			base.Update();
+
+
+
 		}
 
 		override protected void FixedUpdate() {
@@ -61,18 +91,7 @@ namespace Characters.Bodies {
 			}
 
 
-			/*
-			if(IsStanding() && Mathf.Sign(velocity.y) == Mathf.Sign(gravity)) {
-				// We're going to fall through the floor with 
-				velocity.y = 0;
-			}*/
-
-
-
-			//rb.MovePosition(rb.position + velocity * Time.fixedDeltaTime);
 			rb.MovePosition(targetPos);
-
-			//Debug.Log(velocity);
 		}
 		#endregion
 
@@ -81,7 +100,22 @@ namespace Characters.Bodies {
 			magnitude = Mathf.Clamp(magnitude, -1f, 1f);
 
 			//rb.MovePosition(rb.position + xSpeed * transform.right * magnitude * Time.fixedDeltaTime);
-			velocity.x = xSpeed * magnitude;
+			velocity.x = walkingSpeed * magnitude;
+		}
+
+		public void JumpBegin ()
+		{
+			if(IsStanding()) {
+				isJumping = true;
+
+				gravity = jumpGravity;
+				velocity.y += jumpVelocity;
+			}
+
+		}
+		public void JumpEnd ()
+		{
+			gravity = normalGravity;
 		}
 
 		public bool IsStanding() {
