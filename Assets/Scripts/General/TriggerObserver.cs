@@ -48,6 +48,6 @@ public class TriggerObserver : MonoBehaviour {
 			isTriggered = false;
 		}
 
-		Debug.Log(isTriggered);
+		//Debug.Log(isTriggered);
 	}
 }

@@ -22,11 +22,14 @@ namespace Characters.Bodies {
 		[Tooltip("How far the character goes at the peek of a full jump. Making this zero disables jumps.")]
 		[SerializeField] float jumpPeekDist;
 
+		[Space(10)]
+		[SerializeField] bool debugCollisions = false;
+
 		Rigidbody rb;
 
 		Vector3 velocity;
 		float gravity;
-		bool isJumping;
+		//bool isJumping;
 
 		/// <summary>
 		/// Gets the magnitude of the jump velocity.
@@ -66,15 +69,27 @@ namespace Characters.Bodies {
 		override protected void FixedUpdate() {
 			base.FixedUpdate();
 
-
 			RaycastHit hitInfo;
-			Vector3 targetPos;
+			Vector3 newOffset;
 
 			velocity.y += gravity * Time.fixedDeltaTime;
+			
+
+			if(debugCollisions) {
+				ExtDebug.DrawBoxCastBox(
+					origin: rb.position,
+					halfExtents: boundingBox.size * 0.5f,
+					orientation: rb.rotation,
+					direction: velocity,
+					distance: velocity.magnitude * Time.fixedDeltaTime,
+					color: Color.red,
+					duration: 0.1f
+				);
+			}
 
 			if(Physics.BoxCast(
 				center:                  rb.position,
-				halfExtents:             (boundingBox.size * (0.5f)),
+				halfExtents:             boundingBox.size * 0.5f,
 				direction:               velocity,
 				hitInfo:                 out hitInfo,
 				orientation:             rb.rotation,
@@ -83,15 +98,32 @@ namespace Characters.Bodies {
 				queryTriggerInteraction: QueryTriggerInteraction.Ignore
 				))
 			{
-				targetPos = rb.position + velocity.normalized * hitInfo.distance;
+				if(debugCollisions) {
+					ExtDebug.DrawBoxCastOnHit(
+						origin: rb.position,
+						halfExtents: boundingBox.size * 0.5f,
+						orientation: rb.rotation,
+						direction: velocity,
+						hitInfoDistance: hitInfo.distance,
+						color: Color.cyan,
+						duration: 0.1f
+					);
+
+					Debug.Log(gameObject.name + " contacts at " + hitInfo.point.ToString("F2"));
+				}
+
+				newOffset = velocity.normalized * hitInfo.distance;
 				velocity = Vector3.ProjectOnPlane(velocity, hitInfo.normal);
+
 			}
 			else {
-				targetPos = rb.position + velocity * Time.fixedDeltaTime;
+				newOffset = velocity * Time.fixedDeltaTime;
 			}
 
+			//Debug.Log(newOffset * 10000);
 
-			rb.MovePosition(targetPos);
+			rb.MovePosition(rb.position + newOffset);
+			//rb.position = rb.position + newOffset;
 		}
 		#endregion
 
@@ -106,7 +138,7 @@ namespace Characters.Bodies {
 		public void JumpBegin ()
 		{
 			if(IsStanding()) {
-				isJumping = true;
+				//isJumping = true;
 
 				gravity = jumpGravity;
 				velocity.y += jumpVelocity;

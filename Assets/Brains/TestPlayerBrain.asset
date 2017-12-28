@@ -13,4 +13,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   xAxisName: Horizontal
   yAxisName: Vertical
-  jumpButtonName: Fire1
+  jumpButtonName: Jump
