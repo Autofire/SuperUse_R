@@ -28,9 +28,6 @@ namespace Characters.Brains.Players {
 					bodyJump.JumpEnd();
 				}
 			}
-		}
-
-		override public void FixedThink(Bodies.BaseBody body) {
 
 			IMoveX bodyMoveX = body as IMoveX;
 
@@ -38,22 +35,6 @@ namespace Characters.Brains.Players {
 				bodyMoveX.MoveX(Input.GetAxis(xAxisName));
 			}
 		}
-
-		/*
-		void FixedUpdate() {
-			IssueCommand(OnMoveX, Input.GetAxis(xAxisName));
-			IssueCommand(OnMoveY, Input.GetAxis(yAxisName));
-		}
-
-		void Update() {
-			if(Input.GetButtonDown(jumpButtonName)) {
-				IssueCommand(OnJumpBegin);
-			}
-			else if(Input.GetButtonUp(jumpButtonName)) {
-				IssueCommand(OnJumpEnd);
-			}
-		}
-		*/
 
 	}
 

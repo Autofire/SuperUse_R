@@ -92,10 +92,6 @@ namespace Characters.Bodies {
 		virtual protected void Update () {
 			brain.Think(this);
 		}
-
-		virtual protected void FixedUpdate() {
-			brain.FixedThink(this);
-		}
 		#endregion
 
 		private void PrepNewBrain() {

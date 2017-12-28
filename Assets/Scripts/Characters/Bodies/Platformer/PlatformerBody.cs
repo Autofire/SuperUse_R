@@ -26,8 +26,6 @@ namespace Characters.Bodies {
 		[Space(10)]
 		[SerializeField] bool debugCollisions = false;
 
-		Rigidbody rb;
-
 		Vector3 velocity;
 		float gravity;
 		//bool isJumping;
@@ -54,21 +52,12 @@ namespace Characters.Bodies {
 		override protected void Awake() {
 			base.Awake();
 
-			rb = GetComponent<Rigidbody>();
-
 			velocity = Vector3.zero;
 			gravity = normalGravity;
 		}
 
 		override protected void Update() {
 			base.Update();
-
-
-
-		}
-
-		override protected void FixedUpdate() {
-			base.FixedUpdate();
 
 			RaycastHit hitInfo;
 			Vector3 newOffset = Vector3.zero;
@@ -77,15 +66,15 @@ namespace Characters.Bodies {
 			boxSize *= (1 - skinFactor);
 
 			float skinWidth = ((boundingBox.size * 0.5f).x - boxSize.x);
-			float travelDistance = (velocity.magnitude * Time.fixedDeltaTime) + skinWidth;
+			float travelDistance = (velocity.magnitude * Time.deltaTime) + skinWidth;
 
-			velocity.y += gravity * Time.fixedDeltaTime;
+			velocity.y += gravity * Time.deltaTime;
 
 			if(debugCollisions) {
 				ExtDebug.DrawBoxCastBox(
-					origin: rb.position,
+					origin: transform.position,
 					halfExtents: boxSize,
-					orientation: rb.rotation,
+					orientation: transform.rotation,
 					direction: velocity,
 					distance: travelDistance,
 					color: Color.red,
@@ -96,11 +85,11 @@ namespace Characters.Bodies {
 			}
 
 			if(Physics.BoxCast(
-				center:                  rb.position,
+				center:                  transform.position,
 				halfExtents:             boxSize,
 				direction:               velocity,
 				hitInfo:                 out hitInfo,
-				orientation:             rb.rotation,
+				orientation:             transform.rotation,
 				maxDistance:             travelDistance,
 				layerMask:               collisionMask,
 				queryTriggerInteraction: QueryTriggerInteraction.Ignore
@@ -108,9 +97,9 @@ namespace Characters.Bodies {
 			{
 				if(debugCollisions) {
 					ExtDebug.DrawBoxCastOnHit(
-						origin: rb.position,
+						origin: transform.position,
 						halfExtents: boxSize,
-						orientation: rb.rotation,
+						orientation: transform.rotation,
 						direction: velocity,
 						hitInfoDistance: hitInfo.distance,
 						color: Color.cyan,
@@ -127,12 +116,14 @@ namespace Characters.Bodies {
 					Debug.Log("Corrected velocity " + velocity.ToString("F2"));
 			}
 
-			newOffset += velocity * Time.fixedDeltaTime;
+			newOffset += velocity * Time.deltaTime;
 
 			//Debug.Log(newOffset * 10000);
 
-			rb.MovePosition(rb.position + newOffset);
+			transform.position = transform.position + newOffset;
 			//rb.position = rb.position + newOffset;
+
+
 		}
 		#endregion
 
@@ -140,7 +131,6 @@ namespace Characters.Bodies {
 		public void MoveX(float magnitude) {
 			magnitude = Mathf.Clamp(magnitude, -1f, 1f);
 
-			//rb.MovePosition(rb.position + xSpeed * transform.right * magnitude * Time.fixedDeltaTime);
 			velocity.x = walkingSpeed * magnitude;
 		}
 
