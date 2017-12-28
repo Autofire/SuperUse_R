@@ -12,11 +12,12 @@ namespace Characters.Bodies {
 		[SerializeField] LayerMask collisionMask = -1;
 
 		[Space(10)]
-
-		[SerializeField] float walkingSpeed = 1f;
 		[SerializeField] float normalGravity = -9.8f;
+		[Range(0f, 1f)]
+		[SerializeField] float skinFactor = 0.05f;
 
 		[Space(10)]
+		[SerializeField] float walkingSpeed = 1f;
 		[Tooltip("How high the character goes at the peek of a full jump. Making this zero disables jumps.")]
 		[SerializeField] float jumpHeight;
 		[Tooltip("How far the character goes at the peek of a full jump. Making this zero disables jumps.")]
@@ -72,16 +73,21 @@ namespace Characters.Bodies {
 			RaycastHit hitInfo;
 			Vector3 newOffset = Vector3.zero;
 
+			Vector3 boxSize = boundingBox.size * 0.5f;
+			boxSize *= (1 - skinFactor);
+
+			float skinWidth = ((boundingBox.size * 0.5f).x - boxSize.x);
+			float travelDistance = (velocity.magnitude * Time.fixedDeltaTime) + skinWidth;
+
 			velocity.y += gravity * Time.fixedDeltaTime;
-			
 
 			if(debugCollisions) {
 				ExtDebug.DrawBoxCastBox(
 					origin: rb.position,
-					halfExtents: boundingBox.size * 0.5f,
+					halfExtents: boxSize,
 					orientation: rb.rotation,
 					direction: velocity,
-					distance: velocity.magnitude * Time.fixedDeltaTime,
+					distance: travelDistance,
 					color: Color.red,
 					duration: 0.1f
 				);
@@ -91,11 +97,11 @@ namespace Characters.Bodies {
 
 			if(Physics.BoxCast(
 				center:                  rb.position,
-				halfExtents:             boundingBox.size * 0.5f,
+				halfExtents:             boxSize,
 				direction:               velocity,
 				hitInfo:                 out hitInfo,
 				orientation:             rb.rotation,
-				maxDistance:             velocity.magnitude * Time.fixedDeltaTime,
+				maxDistance:             travelDistance,
 				layerMask:               collisionMask,
 				queryTriggerInteraction: QueryTriggerInteraction.Ignore
 				))
@@ -103,7 +109,7 @@ namespace Characters.Bodies {
 				if(debugCollisions) {
 					ExtDebug.DrawBoxCastOnHit(
 						origin: rb.position,
-						halfExtents: boundingBox.size * 0.5f,
+						halfExtents: boxSize,
 						orientation: rb.rotation,
 						direction: velocity,
 						hitInfoDistance: hitInfo.distance,
@@ -114,7 +120,7 @@ namespace Characters.Bodies {
 					Debug.Log(gameObject.name + " contacts at " + hitInfo.point.ToString("F2"));
 				}
 
-				newOffset += velocity.normalized * hitInfo.distance;
+				newOffset += velocity.normalized * (hitInfo.distance - skinWidth);
 				velocity = Vector3.ProjectOnPlane(velocity, hitInfo.normal);
 
 				if(debugCollisions)
