@@ -70,7 +70,7 @@ namespace Characters.Bodies {
 			base.FixedUpdate();
 
 			RaycastHit hitInfo;
-			Vector3 newOffset;
+			Vector3 newOffset = Vector3.zero;
 
 			velocity.y += gravity * Time.fixedDeltaTime;
 			
@@ -85,6 +85,8 @@ namespace Characters.Bodies {
 					color: Color.red,
 					duration: 0.1f
 				);
+
+				Debug.Log("Initial velocity " + velocity.ToString("F2"));
 			}
 
 			if(Physics.BoxCast(
@@ -112,13 +114,14 @@ namespace Characters.Bodies {
 					Debug.Log(gameObject.name + " contacts at " + hitInfo.point.ToString("F2"));
 				}
 
-				newOffset = velocity.normalized * hitInfo.distance;
+				newOffset += velocity.normalized * hitInfo.distance;
 				velocity = Vector3.ProjectOnPlane(velocity, hitInfo.normal);
 
+				if(debugCollisions)
+					Debug.Log("Corrected velocity " + velocity.ToString("F2"));
 			}
-			else {
-				newOffset = velocity * Time.fixedDeltaTime;
-			}
+
+			newOffset += velocity * Time.fixedDeltaTime;
 
 			//Debug.Log(newOffset * 10000);
 
