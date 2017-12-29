@@ -1065,7 +1065,7 @@ MonoBehaviour:
   collisionMask:
     serializedVersion: 2
     m_Bits: 4294967039
-  normalGravity: -9.8
+  normalGravity: -10
   skinFactor: 0.102
   walkingSpeed: 4
   jumpHeight: 3
@@ -1105,7 +1105,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!54 &1935520070
 Rigidbody:
   m_ObjectHideFlags: 0

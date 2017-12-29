@@ -29,7 +29,7 @@ namespace Characters.Bodies {
 
 		const string VECTOR3_DEBUG = "F3";
 
-		Vector3 velocity;
+		Vector2 velocity;
 		float gravity;
 		//bool isJumping;
 
@@ -62,137 +62,106 @@ namespace Characters.Bodies {
 		override protected void Update() {
 			base.Update();
 
-			ApplyGravity();
+			velocity.y += (gravity * Time.deltaTime);
+			velocity = ApplyVelocity(velocity);
+		}
+		#endregion
 
 
-			// Offset from the object's current position
-			System.Nullable<Vector3> targetOffset = null;	
+		#region Helper functions
 
-			// This is the size of the player's box. Keep in mind that call box casts use half the bounding box.
+		/// <summary>
+		/// Move with the given motion. This is treated as a target offset to apply, and it is not scaled according
+		/// to any kind of time.
+		/// </summary>
+		/// <param name="motion">Offset to move by.</param>
+		/// <returns>
+		/// The actual distance moved. If nothing got in the way of the motion, then this value is equal to
+		/// the one passed in.
+		/// </returns>
+		Vector3 Move(Vector3 motion) {
+
+			Vector3 finalMotion = motion;
+
 			Vector3 halfBoxSize = boundingBox.size * 0.5f;
-
-			// Size of the player box, used for box casts. The skin factor shrinks the box a bit.
 			Vector3 castBoxSize = halfBoxSize * (1 - skinFactor);
 
-			// This is the width, in units, of the skin.
-			float skinWidth = ((boundingBox.size * 0.5f).x - castBoxSize.x);
-
-			// This is the farthest we'll travel, assuming we won't bump into anything.
-			float maxTravelDist = (velocity.magnitude * Time.deltaTime) + skinWidth;
-
-			// All debug messages in this function get sent here. Without this, a ton of output gets spewed all over the
-			// console.
-			string debugOutput = "";	// TODO Make this get stripped out in the final build
-
-			// This is the initial velocity (obviously). This is needed because we'll be tinkering with the velocity
-			// variable, and we need to know what it is before the tinkering begins.
-			Vector3 initVelocity = velocity;
-
+			float skinWidth   = boundingBox.size.x * 0.5f - castBoxSize.x;
+			float maxTravelDist = motion.magnitude + skinWidth;
+			float targetTravelDist = maxTravelDist;
 
 			if(debugCollisions) {
 				// Draw the initial cast.
 				ExtDebug.DrawBoxCastBox(
-					origin: transform.position,
+					origin:      transform.position,
 					halfExtents: castBoxSize,
 					orientation: transform.rotation,
-					direction: initVelocity,
-					distance: maxTravelDist,
-					color: Color.red,
-					duration: debugBoxCastLifetime
+					direction:   motion,
+					distance:    maxTravelDist,
+					color:       Color.red,
+					duration:    debugBoxCastLifetime
 				);
-
-				debugOutput +=
-					"Initial velocity " + initVelocity.ToString(VECTOR3_DEBUG)
-					+ " (Magnitude: " + initVelocity.magnitude.ToString() + ")\n";
 			}
 
-			// We must do a BoxCastAll instead of BoxCast because there may be many collisions; BoxCast only catches the
-			// very first potential collision.
-			foreach(RaycastHit hitInfo in
+			RaycastHit[] allHitInfo =
 				Physics.BoxCastAll(
 					center:                  transform.position,
 					halfExtents:             castBoxSize,
-					direction:               initVelocity,
+					direction:               motion,
 					orientation:             transform.rotation,
 					maxDistance:             maxTravelDist,
 					layermask:               collisionMask,
 					queryTriggerInteraction: QueryTriggerInteraction.Ignore
-				))
-			{
+				);
+
+			foreach(RaycastHit hitInfo in allHitInfo) {
+				// We are going to intersect with the object if we continue down the current path.
+
+				if(debugCollisions) {
+					// Draw the cast for the collision.
+					ExtDebug.DrawBoxCastOnHit(
+						origin:          transform.position,
+						halfExtents:     castBoxSize,
+						orientation:     transform.rotation,
+						direction:       motion,
+						hitInfoDistance: hitInfo.distance,
+						color:           Color.cyan,
+						duration:        debugBoxCastLifetime
+					);
+				}
+
 				if(hitInfo.distance == 0 && hitInfo.point == Vector3.zero) {
-					// For info on these conditions and why they point out an "I'm stuck inside something" case, see
-					// https://docs.unity3d.com/ScriptReference/Physics.BoxCastAll.html
 					Debug.LogError(
 						gameObject.name + " is stuck inside an object named " + hitInfo.collider.gameObject.name + '\n'
-						+ "No force will be applied to counteract this.");
+						+ "No movement will be made on the object until it's freed."
+					);
 
-					//targetOffset = Vector3.zero;
+					targetTravelDist = 0;
 				}
-				else {
-					// We are going to intersect with the object if we continue down the current path.
-
-					if(debugCollisions) {
-						// Draw the cast for the collision.
-						ExtDebug.DrawBoxCastOnHit(
-							origin: transform.position,
-							halfExtents: castBoxSize,
-							orientation: transform.rotation,
-							direction: initVelocity,
-							hitInfoDistance: hitInfo.distance,
-							color: Color.cyan,
-							duration: debugBoxCastLifetime
-						);
-
-						debugOutput += '\n' + gameObject.name + " contacts at " + hitInfo.point.ToString(VECTOR3_DEBUG) + '\n';
-					}
-
-					// Given the potential collision, this is where we think we'll end up. Within this frame, we can
-					// only end up right against the surface we just collided with.
-					Vector3 newOffset = initVelocity.normalized * (hitInfo.distance - skinWidth);
-
-					// This handles having multiple collisions; in theory, the collision which causes us to move the
-					// SHORTEST distance must be the safest one. Assuming nothing else is moving, we won't want to
-					// travel through two solid objects. Thus, we must selected the shortest possible offset.
-					if(!targetOffset.HasValue || newOffset.sqrMagnitude <= targetOffset.Value.sqrMagnitude) {
-						targetOffset = newOffset;
-					}
-
-					// We'll be shifting the object over so that it's up against the thing we're bumping into.
-					// Because of this, we don't need to worry about the component of the velocity
-					velocity = Vector3.ProjectOnPlane(velocity, hitInfo.normal);
-
-					if(debugCollisions) {
-						debugOutput +=
-							"Corrected velocity " + velocity.ToString(VECTOR3_DEBUG)
-							+ " (Magnitude: " + velocity.magnitude.ToString() + ")\n"
-
-							+ (targetOffset.Value == newOffset ? "Using" : "Not using")
-							+ " offset of " + newOffset.ToString(VECTOR3_DEBUG)
-							+ " (Magnitude: " + newOffset.magnitude.ToString() + ")\n";
-					}
+				else if(hitInfo.distance - skinWidth < targetTravelDist) {
+					targetTravelDist = hitInfo.distance - skinWidth;
 				}
 			}
 
-			// Apply the given offset, along with any motion we have left due to velocity.
-			targetOffset = targetOffset.GetValueOrDefault() + velocity * Time.deltaTime;
-
-			// Finally, apply our offset.
-			transform.position = transform.position + targetOffset.Value;
-
-			if(debugOutput != "") {
-				debugOutput +=
-					"\nFinal offset: " + targetOffset.Value.ToString(VECTOR3_DEBUG)
-					+ " (Magnitude: " + targetOffset.Value.magnitude.ToString() + ")\n";
-
-				Debug.Log(debugOutput);
+			if(targetTravelDist != maxTravelDist) {
+				finalMotion = motion.normalized * targetTravelDist;
 			}
+
+			transform.position += finalMotion;
+
+			return finalMotion;
 		}
-		#endregion
 
-		#region Helper functions
+		Vector2 ApplyVelocity(Vector2 velocity) {
+			Vector3 hMotion = transform.right * velocity.x;
+			Vector3 vMotion = transform.up * velocity.y;
 
-		void ApplyGravity() {
-			velocity.y += gravity * Time.deltaTime;
+			Vector3 hMotionFinal = Move(hMotion * Time.deltaTime) / Time.deltaTime;
+			Vector3 vMotionFinal = Move(vMotion * Time.deltaTime) / Time.deltaTime;
+
+			//Debug.Log(vMotion.ToString("F5") + vMotionFinal.ToString("F5") + new Vector2(hMotionFinal.magnitude, vMotionFinal.magnitude).ToString());
+
+			return new Vector2(hMotionFinal.magnitude * Mathf.Sign(velocity.x), vMotionFinal.magnitude * Mathf.Sign(velocity.y));
 		}
 
 		#endregion
@@ -201,7 +170,9 @@ namespace Characters.Bodies {
 		public void MoveX(float magnitude) {
 			magnitude = Mathf.Clamp(magnitude, -1f, 1f);
 
-			velocity.x = walkingSpeed * magnitude;
+			//velocity.x = walkingSpeed * magnitude;
+
+			Move(transform.right * (magnitude * walkingSpeed * Time.deltaTime));
 		}
 
 		public void JumpBegin ()
