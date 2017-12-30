@@ -1012,8 +1012,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1859607424}
   - component: {fileID: 1859607425}
-  - component: {fileID: 1859607426}
   - component: {fileID: 1859607427}
+  - component: {fileID: 1859607426}
+  - component: {fileID: 1859607428}
   m_Layer: 8
   m_Name: TestVirus
   m_TagString: Untagged
@@ -1061,17 +1062,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _brain: {fileID: 11400000, guid: dda89a442de214bfd8f06568ddab0b3c, type: 2}
   footBox: {fileID: 1749742976}
-  boundingBox: {fileID: 1859607425}
-  collisionMask:
-    serializedVersion: 2
-    m_Bits: 4294967039
-  normalGravity: -10
-  skinFactor: 0.102
+  gBody: {fileID: 1859607428}
   walkingSpeed: 4
-  jumpHeight: 3
+  jumpHeight: 4.5
   jumpPeekDist: 3
-  debugCollisions: 1
-  debugBoxCastLifetime: 0.05
+  normalGravityScale: 3.5
 --- !u!54 &1859607427
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1087,6 +1082,24 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 120
   m_CollisionDetection: 0
+--- !u!114 &1859607428
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1859607423}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cef1d8e3ee1e94dd6987b5aacb2a4f2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collisionMask:
+    serializedVersion: 2
+    m_Bits: 1
+  boundingBox: {fileID: 1859607425}
+  skinThickness: 0.05
+  debugCasts: 1
+  debugCastLifetime: 0.1
 --- !u!1 &1935520069
 GameObject:
   m_ObjectHideFlags: 0

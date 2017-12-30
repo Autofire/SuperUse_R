@@ -5,29 +5,43 @@ using UnityEngine.Assertions;
 
 namespace Characters.Bodies {
 
+	[RequireComponent(typeof(GamePhysics.GameBody))]
 	public class PlatformerBody : BaseBody, IMoveX, IStand, IJump {
 
 		[SerializeField] TriggerObserver footBox;
-		[SerializeField] BoxCollider boundingBox;
-		[SerializeField] LayerMask collisionMask = -1;
+		[SerializeField] GamePhysics.GameBody gBody;
 
 		[Space(10)]
-		[SerializeField] float normalGravity = -9.8f;
-		[Range(0f, 1f)]
-		[SerializeField] float skinFactor = 0.05f;
-
-		[Space(10)]
+		[Tooltip(
+			"Walking speed in units per second. " +
+			"Keep in mind that this is the same even in the air."
+		)]
+		[Range(0f, 50f)]
 		[SerializeField] float walkingSpeed = 1f;
-		[Tooltip("How high the character goes at the peek of a full jump. Making this zero disables jumps.")]
+
+		[Tooltip(
+			"How high the character goes at the peek of a full jump. " +
+			"Making this zero disables jumps."
+		)]
+		[Range(0f, 10f)]
 		[SerializeField] float jumpHeight;
-		[Tooltip("How far the character goes at the peek of a full jump. Making this zero disables jumps.")]
+
+		[Tooltip(
+			"How far the character goes at the peek of a full jump. " +
+			"Making this zero disables jumps. " +
+			"Higher values make jumps feel more snappy."
+		)]
+		[Range(0f, 10f)]
 		[SerializeField] float jumpPeekDist;
 
-		[Space(10)]
-		[SerializeField] bool debugCollisions = false;
-		[SerializeField] float debugBoxCastLifetime = 0f;
-
-		const string VECTOR3_DEBUG = "F3";
+		[Tooltip(
+			"This determines how fast the character falls " +
+			"either after they fall of an edge or reach the peek of a jump. " +
+			"This is effectively a scaler of the 'jump gravity' which gets " +
+			"calculated based on the values above."
+		)]
+		[Range(0f, 10f)]
+		[SerializeField] float normalGravityScale = 3f;
 
 		Vector2 velocity;
 		float gravity;
@@ -51,9 +65,19 @@ namespace Characters.Bodies {
 			get { return -2 * jumpHeight * walkingSpeed * walkingSpeed / (jumpPeekDist * jumpPeekDist); }
 		}
 
+		/// <summary>
+		/// Gravity which the character experiences normally.
+		/// </summary>
+		/// <value>The normal gravity.</value>
+		float normalGravity {
+			get { return normalGravityScale * jumpGravity; }
+		}
+
 		#region Unity events
 		override protected void Awake() {
 			base.Awake();
+
+			Assert.IsNotNull(gBody);
 
 			velocity = Vector3.zero;
 			gravity = normalGravity;
@@ -64,104 +88,29 @@ namespace Characters.Bodies {
 
 			velocity.y += (gravity * Time.deltaTime);
 			velocity = ApplyVelocity(velocity);
+
+			if(velocity.y <= 0f) {
+				gravity = normalGravity;
+			}
 		}
 		#endregion
 
 
 		#region Helper functions
 
-		/// <summary>
-		/// Move with the given motion. This is treated as a target offset to apply, and it is not scaled according
-		/// to any kind of time.
-		/// </summary>
-		/// <param name="motion">Offset to move by.</param>
-		/// <returns>
-		/// The actual distance moved. If nothing got in the way of the motion, then this value is equal to
-		/// the one passed in.
-		/// </returns>
-		Vector3 Move(Vector3 motion) {
-
-			Vector3 finalMotion = motion;
-
-			Vector3 halfBoxSize = boundingBox.size * 0.5f;
-			Vector3 castBoxSize = halfBoxSize * (1 - skinFactor);
-
-			float skinWidth   = boundingBox.size.x * 0.5f - castBoxSize.x;
-			float maxTravelDist = motion.magnitude + skinWidth;
-			float targetTravelDist = maxTravelDist;
-
-			if(debugCollisions) {
-				// Draw the initial cast.
-				ExtDebug.DrawBoxCastBox(
-					origin:      transform.position,
-					halfExtents: castBoxSize,
-					orientation: transform.rotation,
-					direction:   motion,
-					distance:    maxTravelDist,
-					color:       Color.red,
-					duration:    debugBoxCastLifetime
-				);
-			}
-
-			RaycastHit[] allHitInfo =
-				Physics.BoxCastAll(
-					center:                  transform.position,
-					halfExtents:             castBoxSize,
-					direction:               motion,
-					orientation:             transform.rotation,
-					maxDistance:             maxTravelDist,
-					layermask:               collisionMask,
-					queryTriggerInteraction: QueryTriggerInteraction.Ignore
-				);
-
-			foreach(RaycastHit hitInfo in allHitInfo) {
-				// We are going to intersect with the object if we continue down the current path.
-
-				if(debugCollisions) {
-					// Draw the cast for the collision.
-					ExtDebug.DrawBoxCastOnHit(
-						origin:          transform.position,
-						halfExtents:     castBoxSize,
-						orientation:     transform.rotation,
-						direction:       motion,
-						hitInfoDistance: hitInfo.distance,
-						color:           Color.cyan,
-						duration:        debugBoxCastLifetime
-					);
-				}
-
-				if(hitInfo.distance == 0 && hitInfo.point == Vector3.zero) {
-					Debug.LogError(
-						gameObject.name + " is stuck inside an object named " + hitInfo.collider.gameObject.name + '\n'
-						+ "No movement will be made on the object until it's freed."
-					);
-
-					targetTravelDist = 0;
-				}
-				else if(hitInfo.distance - skinWidth < targetTravelDist) {
-					targetTravelDist = hitInfo.distance - skinWidth;
-				}
-			}
-
-			if(targetTravelDist != maxTravelDist) {
-				finalMotion = motion.normalized * targetTravelDist;
-			}
-
-			transform.position += finalMotion;
-
-			return finalMotion;
-		}
-
 		Vector2 ApplyVelocity(Vector2 velocity) {
 			Vector3 hMotion = transform.right * velocity.x;
 			Vector3 vMotion = transform.up * velocity.y;
 
-			Vector3 hMotionFinal = Move(hMotion * Time.deltaTime) / Time.deltaTime;
-			Vector3 vMotionFinal = Move(vMotion * Time.deltaTime) / Time.deltaTime;
+			Vector3 hMotionFinal = gBody.Move(hMotion * Time.deltaTime) / Time.deltaTime;
+			Vector3 vMotionFinal = gBody.Move(vMotion * Time.deltaTime) / Time.deltaTime;
 
 			//Debug.Log(vMotion.ToString("F5") + vMotionFinal.ToString("F5") + new Vector2(hMotionFinal.magnitude, vMotionFinal.magnitude).ToString());
 
-			return new Vector2(hMotionFinal.magnitude * Mathf.Sign(velocity.x), vMotionFinal.magnitude * Mathf.Sign(velocity.y));
+			return new Vector2(
+				hMotionFinal.magnitude * Mathf.Sign(velocity.x),
+				vMotionFinal.magnitude * Mathf.Sign(velocity.y)
+			);
 		}
 
 		#endregion
@@ -172,7 +121,7 @@ namespace Characters.Bodies {
 
 			//velocity.x = walkingSpeed * magnitude;
 
-			Move(transform.right * (magnitude * walkingSpeed * Time.deltaTime));
+			gBody.Move(transform.right * (magnitude * walkingSpeed * Time.deltaTime));
 		}
 
 		public void JumpBegin ()
