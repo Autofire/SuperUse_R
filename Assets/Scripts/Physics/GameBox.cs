@@ -4,65 +4,38 @@ using UnityEngine;
 
 namespace GamePhysics {
 
-	public class GameBox : GameBody {
+	public class GameBox : GamePhysics.GameBody {
 
 		[SerializeField] LayerMask collisionMask = -1;
 		[SerializeField] BoxCollider boundingBox;
 		[SerializeField] protected float skinThickness = 0.05f;
 		[Space(10)]
-		[SerializeField] bool debugCasts = false;
+		[SerializeField] bool debugCasts         = false;
+		[Range(0, 10)]
 		[SerializeField] float debugCastLifetime = 0f;
+		[SerializeField] Color debugCastAttempt  = Color.yellow;
+		[SerializeField] Color debugCastMiss     = Color.red;
+		[SerializeField] Color debugCastHit      = Color.cyan;
+
+		public Vector3 halfBoxSize {
+			get { return boundingBox.size * 0.5f; }
+		}
+
+		public Vector3 castBoxSize {
+			get { return halfBoxSize - Vector3.one * skinThickness; }
+		}
 
 
 		override public Vector3 Move(Vector3 motion)
 		{
 			Vector3 finalMotion = motion;
 
-			Vector3 halfBoxSize = boundingBox.size * 0.5f;
-			Vector3 castBoxSize = halfBoxSize - Vector3.one * skinThickness;
-
 			float maxTravelDist    = motion.magnitude + skinThickness;
 			float targetTravelDist = maxTravelDist;
 
-			if(debugCasts) {
-				// Draw the initial cast.
-				ExtDebug.DrawBoxCastBox(
-					origin:      transform.position,
-					halfExtents: castBoxSize,
-					orientation: transform.rotation,
-					direction:   motion,
-					distance:    maxTravelDist,
-					color:       Color.red,
-					duration:    debugCastLifetime
-				);
-			}
-
-			RaycastHit[] allHitInfo =
-				Physics.BoxCastAll(
-					center:                  transform.position,
-					halfExtents:             castBoxSize,
-					direction:               motion,
-					orientation:             transform.rotation,
-					maxDistance:             maxTravelDist,
-					layermask:               collisionMask,
-					queryTriggerInteraction: QueryTriggerInteraction.Ignore
-				);
+			RaycastHit[] allHitInfo = CastAll(motion, maxTravelDist);
 
 			foreach(RaycastHit hitInfo in allHitInfo) {
-				// We are going to intersect with the object if we continue down the current path.
-
-				if(debugCasts) {
-					// Draw the cast for the collision.
-					ExtDebug.DrawBoxCastOnHit(
-						origin:          transform.position,
-						halfExtents:     castBoxSize,
-						orientation:     transform.rotation,
-						direction:       motion,
-						hitInfoDistance: hitInfo.distance,
-						color:           Color.cyan,
-						duration:        debugCastLifetime
-					);
-				}
 
 				if(hitInfo.distance == 0 && hitInfo.point == Vector3.zero) {
 					Debug.LogError(
@@ -84,7 +57,93 @@ namespace GamePhysics {
 			transform.position += finalMotion;
 
 			return finalMotion;
-		}
-	}
+		} // End Move
 
-}
+
+
+		override public System.Nullable<RaycastHit> Cast(Vector3 direction, float distance) {
+
+			bool hit;
+			RaycastHit hitInfo;
+
+			hit = Physics.BoxCast(
+				hitInfo:      out hitInfo,
+
+				center:       transform.position,   halfExtents:             castBoxSize,
+				direction:    direction,            layerMask:               collisionMask,
+				orientation:  transform.rotation,   queryTriggerInteraction: QueryTriggerInteraction.Ignore,
+				maxDistance:  distance
+			);
+
+
+			#if UNITY_EDITOR
+			if(debugCasts) {
+				ExtDebug.DrawBoxCastBox(
+					origin:      transform.position, halfExtents: castBoxSize,
+					orientation: transform.rotation, direction:   direction,
+					distance:    distance,           
+
+					duration:    debugCastLifetime,
+					color:       (hit ? debugCastAttempt : debugCastMiss)
+				);
+
+				if(hit) {
+					ExtDebug.DrawBoxCastOnHit(
+						origin:          transform.position,      halfExtents:     castBoxSize,
+						orientation:     transform.rotation,      direction:       direction,
+						hitInfoDistance: hitInfo.distance,
+
+						duration:        debugCastLifetime,
+						color:           debugCastHit
+					);
+				}
+			}
+			#endif
+
+			return new System.Nullable<RaycastHit>(hitInfo);
+		} // End Cast
+
+
+
+		override public RaycastHit[] CastAll(Vector3 direction, float distance) {
+
+			RaycastHit[] hitInfoAr;
+
+			hitInfoAr = Physics.BoxCastAll(
+				center:       transform.position,   halfExtents:             castBoxSize,
+				direction:    direction,            layermask:               collisionMask,
+				orientation:  transform.rotation,   queryTriggerInteraction: QueryTriggerInteraction.Ignore,
+				maxDistance:  distance
+			);
+
+
+			#if UNITY_EDITOR
+			if(debugCasts) {
+				ExtDebug.DrawBoxCastBox(
+					origin:      transform.position, halfExtents: castBoxSize,
+					orientation: transform.rotation, direction:   direction,
+					distance:    distance,           
+
+					duration:    debugCastLifetime,
+					color:       (hitInfoAr.Length > 0 ? debugCastAttempt : debugCastMiss)
+				);
+
+				foreach(RaycastHit hitInfo in hitInfoAr) {
+					ExtDebug.DrawBoxCastOnHit(
+						origin:          transform.position,      halfExtents:     castBoxSize,
+						orientation:     transform.rotation,      direction:       direction,
+						hitInfoDistance: hitInfo.distance,
+
+						duration:        debugCastLifetime,
+						color:           debugCastHit
+					);
+				}
+			}
+			#endif
+
+			return hitInfoAr;
+		} // End CastAll
+
+
+	} // End of class
+} // End of namespace

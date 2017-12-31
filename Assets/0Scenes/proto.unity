@@ -1044,7 +1044,7 @@ BoxCollider:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1859607423}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -1100,6 +1100,9 @@ MonoBehaviour:
   skinThickness: 0.05
   debugCasts: 1
   debugCastLifetime: 0.1
+  debugCastAttempt: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  debugCastMiss: {r: 1, g: 0, b: 0, a: 1}
+  debugCastHit: {r: 0, g: 1, b: 1, a: 1}
 --- !u!1 &1935520069
 GameObject:
   m_ObjectHideFlags: 0
