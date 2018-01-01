@@ -43,7 +43,6 @@ namespace Characters.Bodies {
 		[Range(0f, 10f)]
 		[SerializeField] float normalGravityScale = 3f;
 
-		Vector2 velocity;
 		float gravity;
 		//bool isJumping;
 
@@ -79,44 +78,20 @@ namespace Characters.Bodies {
 
 			Assert.IsNotNull(gBody);
 
-			velocity = Vector3.zero;
 			gravity = normalGravity;
 		}
 
 		override protected void Update() {
 			base.Update();
 
-			velocity.y += (gravity * Time.deltaTime);
-			velocity = ApplyVelocity(velocity);
+			gBody.velocity += Vector3.up * (gravity * Time.deltaTime);
 
-			if(velocity.y <= 0f) {
+			if(gBody.velocity.y <= 0f) {
 				gravity = normalGravity;
 			}
 		}
 		#endregion
 
-
-		#region Helper functions
-		Vector2 ApplyVelocity(Vector2 velocity) {
-			/*
-			Vector3 hMotion = Vector3.right * velocity.x;
-			Vector3 vMotion = Vector3.up * velocity.y;
-
-			Vector3 hMotionFinal = gBody.Move(hMotion * Time.deltaTime) / Time.deltaTime;
-			Vector3 vMotionFinal = gBody.Move(vMotion * Time.deltaTime) / Time.deltaTime;
-
-			//Debug.Log(vMotion.ToString("F5") + vMotionFinal.ToString("F5") + new Vector2(hMotionFinal.magnitude, vMotionFinal.magnitude).ToString());
-
-			return new Vector2(
-				hMotionFinal.magnitude * Mathf.Sign(velocity.x),
-				vMotionFinal.magnitude * Mathf.Sign(velocity.y)
-			);
-*/
-			Vector3 motion = new Vector3(velocity.x, velocity.y);
-			motion = gBody.Move(motion * Time.deltaTime) / Time.deltaTime;
-			return new Vector2(motion.x, motion.y);
-		}
-		#endregion
 
 		#region Interface implenetations
 		public void MoveX(float magnitude) {
@@ -133,7 +108,7 @@ namespace Characters.Bodies {
 				//isJumping = true;
 
 				gravity = jumpGravity;
-				velocity.y += jumpVelocity;
+				gBody.velocity += Vector3.up * jumpVelocity;
 			}
 
 		}

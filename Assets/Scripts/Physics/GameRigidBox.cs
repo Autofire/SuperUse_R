@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace GamePhysics {
 
-	public class GameBox : GamePhysics.GameRigidBody {
+	public class GameRigidBox : GamePhysics.GameRigidBody {
 
 		[SerializeField] LayerMask collisionMask = -1;
 		[SerializeField] BoxCollider boundingBox;
@@ -12,7 +12,7 @@ namespace GamePhysics {
 		[Space(10)]
 		[SerializeField] bool debugCasts         = false;
 		[Range(0, 10)]
-		[SerializeField] float debugCastLifetime = 0f;
+		[SerializeField] float debugCastLifetime = 0.1f;
 		[SerializeField] Color debugCastAttempt  = Color.yellow;
 		[SerializeField] Color debugCastMiss     = Color.red;
 		[SerializeField] Color debugCastHit      = Color.cyan;
@@ -26,16 +26,12 @@ namespace GamePhysics {
 		}
 
 
-		// TODO When we take in a move command, we are actually recieving 3 magnitudes.
-		// We want to move in the "x,y,z" directions, but they're actually the
-		// "right,up,forward" directions. 
-
 		// TODO Make this take a direction and a magnitude, instead of a motion.
 		// With this, we can instead return the new magnitude, which is exactly what
 		// we want when we're doing our weird shenanghans.
 		override public Vector3 Move(Vector3 motion)
 		{
-			Vector3 initMotion = RelativeToAbsolute() * motion;
+			Vector3 initMotion = RelativeToAbsoluteRotation() * motion;
 			Vector3 finalMotion = initMotion;
 
 			float maxTravelDist    = initMotion.magnitude + skinThickness;
@@ -64,7 +60,7 @@ namespace GamePhysics {
 
 			transform.position += finalMotion;
 
-			return AbsoluteToRelative() * finalMotion;
+			return AbsoluteToRelativeRotation() * finalMotion;
 		} // End Move
 
 

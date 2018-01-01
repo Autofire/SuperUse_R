@@ -6,28 +6,19 @@ namespace GamePhysics {
 
 	abstract public class GameRigidBody : MonoBehaviour {
 
-		Vector3 velocity;
+		public Vector3 velocity { get; set; }
 
-		#region Unity Signals
+		#region Unity signals
+		virtual protected void Awake() {
+			velocity = Vector3.zero;
+		}
+
 		virtual protected void Update() {
-			
+			velocity = Move(velocity * Time.deltaTime) / Time.deltaTime;
 		}
 		#endregion
 
-		#region Movement and Velocity
-
-		public Quaternion RelativeToAbsolute() {
-			//float angle = Vector3.Angle(transform.right, Vector3.right);
-			//return Quaternion.AngleAxis(angle, transform.up);
-			return Quaternion.FromToRotation(transform.right, Vector3.right);
-		}
-
-		public Quaternion AbsoluteToRelative() {
-			//float angle = Vector3.Angle(Vector3.right, transform.right);
-			//return Quaternion.AngleAxis(angle, transform.up);
-			return Quaternion.FromToRotation(Vector3.right, transform.right);
-		}
-
+		#region Movement and velocity
 		/// <summary>
 		/// Move with the specified motion. In otherwords, attempt to apply the given
 		/// offset to the object. This will only apply the motion as far as is available,
@@ -40,31 +31,71 @@ namespace GamePhysics {
 		/// this the return value is equal to the motion which was passed in.
 		/// </param>
 		abstract public Vector3 Move(Vector3 motion);
+		#endregion
 
-		/*
-		public Vector3 SplitMove(Vector3 motion) {
-			Vector3[] directions = new Vector3[] {transform.right, transform.up, transform.forward};
-			Vector3 finalMotion;
 
-			for(int i = 0; i < 2; i++) {
-				finalMotion[i] = Move(directions[i] * motion[i]).magnitude * Mathf.Sign( motion[i] );
-			}
-
-			return finalMotion;
+		#region Relative/absolute functions
+		public Quaternion RelativeToAbsoluteRotation() {
+			return Quaternion.FromToRotation(transform.right, Vector3.right);
 		}
-*/
+
+		public Quaternion AbsoluteToRelativeRotation() {
+			return Quaternion.FromToRotation(Vector3.right, transform.right);
+		}
+		#endregion
 
 
+		#region Relative ray casts
+		/// <summary>
+		/// Does a cast using a relative direction and a distance.
+		/// </summary>
+		/// <returns>The hit info.</returns>
+		/// <param name="direction">Direction.</param>
+		/// <param name="distance">Distance.</param>
+		public System.Nullable<RaycastHit> RelativeCast(Vector3 direction, float distance) {
+			return Cast(RelativeToAbsoluteRotation() * direction, distance);
+		}
+
+		/// <summary>
+		/// Does a cast using a relative motion.
+		/// </summary>
+		/// <returns>The cast.</returns>
+		/// <param name="motion">Motion.</param>
+		public System.Nullable<RaycastHit> RelativeCast(Vector3 motion) {
+			return Cast(RelativeToAbsoluteRotation() * motion);
+		}
+
+		/// <summary>
+		/// Does a cast all using a relative direction and distance.
+		/// </summary>
+		/// <returns>The info of all hits.</returns>
+		/// <param name="direction">Direction.</param>
+		/// <param name="distance">Distance.</param>
+		public RaycastHit[] RelativeCastAll(Vector3 direction, float distance) {
+			return CastAll(RelativeToAbsoluteRotation() * direction, distance);
+		}
+
+		/// <summary>
+		/// Does a cast all using a relative motion.
+		/// </summary>
+		/// <returns>The info of all hits.</returns>
+		/// <param name="motion">Motion.</param>
+		public RaycastHit[] RelativeCastAll(Vector3 motion) {
+			return CastAll(RelativeToAbsoluteRotation() * motion);
+		}
 
 		#endregion
 
 
-		#region Ray Casts
+		#region Absolute ray casts
 
 		/// <summary>
 		/// Project our object in the given direction and distance.
 		/// This finds the first possible hit, and it does not return
 		/// anything in the case of overlapping colliders.
+		///
+		/// This is absolute. See RelativeCast if you want to cast
+		/// relative to the object.
 		/// </summary>
 		///
 		/// <param name="direction">
