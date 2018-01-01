@@ -8,8 +8,11 @@ namespace Characters.Bodies {
 	[RequireComponent(typeof(GamePhysics.GameRigidBody))]
 	public class PlatformerBody : BaseBody, IMoveX, IStand, IJump {
 
-		[SerializeField] TriggerObserver footBox;
 		[SerializeField] GamePhysics.GameRigidBody gBody;
+
+		[Space(10)]
+		[Range(0f, 1f)]
+		[SerializeField] float footBoxDepth = 0.01f;
 
 		[Space(10)]
 		[Tooltip(
@@ -108,7 +111,7 @@ namespace Characters.Bodies {
 				//isJumping = true;
 
 				gravity = jumpGravity;
-				gBody.velocity += Vector3.up * jumpVelocity;
+				gBody.velocity = new Vector3(gBody.velocity.x, jumpVelocity, gBody.velocity.z);
 			}
 
 		}
@@ -118,7 +121,9 @@ namespace Characters.Bodies {
 		}
 
 		public bool IsStanding() {
-			return footBox.isTriggered;
+			RaycastHit[] hitInfo = gBody.CastAll(transform.up * -footBoxDepth);
+
+			return (hitInfo.Length > 0);
 		}
 		#endregion
 

@@ -40,7 +40,12 @@ namespace GamePhysics {
 		}
 
 		public Quaternion AbsoluteToRelativeRotation() {
-			return Quaternion.FromToRotation(Vector3.right, transform.right);
+			/*
+			return Quaternion.FromToRotation(Vector3.right, transform.right)
+					+ Quaternion.FromToRotation(Vector3.up, transform.up)
+					+ Quaternion.FromToRotation(transform.forward, Vector3.forward);
+			*/
+			return Quaternion.Inverse( RelativeToAbsoluteRotation() );
 		}
 		#endregion
 
