@@ -4,7 +4,30 @@ using UnityEngine;
 
 namespace GamePhysics {
 
-	abstract public class GameBody : MonoBehaviour {
+	abstract public class GameRigidBody : MonoBehaviour {
+
+		Vector3 velocity;
+
+		#region Unity Signals
+		virtual protected void Update() {
+			
+		}
+		#endregion
+
+		#region Movement and Velocity
+
+		public Quaternion RelativeToAbsolute() {
+			//float angle = Vector3.Angle(transform.right, Vector3.right);
+			//return Quaternion.AngleAxis(angle, transform.up);
+			return Quaternion.FromToRotation(transform.right, Vector3.right);
+		}
+
+		public Quaternion AbsoluteToRelative() {
+			//float angle = Vector3.Angle(Vector3.right, transform.right);
+			//return Quaternion.AngleAxis(angle, transform.up);
+			return Quaternion.FromToRotation(Vector3.right, transform.right);
+		}
+
 		/// <summary>
 		/// Move with the specified motion. In otherwords, attempt to apply the given
 		/// offset to the object. This will only apply the motion as far as is available,
@@ -17,6 +40,26 @@ namespace GamePhysics {
 		/// this the return value is equal to the motion which was passed in.
 		/// </param>
 		abstract public Vector3 Move(Vector3 motion);
+
+		/*
+		public Vector3 SplitMove(Vector3 motion) {
+			Vector3[] directions = new Vector3[] {transform.right, transform.up, transform.forward};
+			Vector3 finalMotion;
+
+			for(int i = 0; i < 2; i++) {
+				finalMotion[i] = Move(directions[i] * motion[i]).magnitude * Mathf.Sign( motion[i] );
+			}
+
+			return finalMotion;
+		}
+*/
+
+
+
+		#endregion
+
+
+		#region Ray Casts
 
 		/// <summary>
 		/// Project our object in the given direction and distance.
@@ -70,6 +113,8 @@ namespace GamePhysics {
 		public RaycastHit[] CastAll(Vector3 motion) {
 			return CastAll(motion, motion.magnitude);
 		}
+
+		#endregion
 
 	} // End of namespace
 } // End of namespace

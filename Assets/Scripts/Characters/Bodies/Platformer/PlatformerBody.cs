@@ -5,11 +5,11 @@ using UnityEngine.Assertions;
 
 namespace Characters.Bodies {
 
-	[RequireComponent(typeof(GamePhysics.GameBody))]
+	[RequireComponent(typeof(GamePhysics.GameRigidBody))]
 	public class PlatformerBody : BaseBody, IMoveX, IStand, IJump {
 
 		[SerializeField] TriggerObserver footBox;
-		[SerializeField] GamePhysics.GameBody gBody;
+		[SerializeField] GamePhysics.GameRigidBody gBody;
 
 		[Space(10)]
 		[Tooltip(
@@ -97,10 +97,10 @@ namespace Characters.Bodies {
 
 
 		#region Helper functions
-
 		Vector2 ApplyVelocity(Vector2 velocity) {
-			Vector3 hMotion = transform.right * velocity.x;
-			Vector3 vMotion = transform.up * velocity.y;
+			/*
+			Vector3 hMotion = Vector3.right * velocity.x;
+			Vector3 vMotion = Vector3.up * velocity.y;
 
 			Vector3 hMotionFinal = gBody.Move(hMotion * Time.deltaTime) / Time.deltaTime;
 			Vector3 vMotionFinal = gBody.Move(vMotion * Time.deltaTime) / Time.deltaTime;
@@ -111,8 +111,11 @@ namespace Characters.Bodies {
 				hMotionFinal.magnitude * Mathf.Sign(velocity.x),
 				vMotionFinal.magnitude * Mathf.Sign(velocity.y)
 			);
+*/
+			Vector3 motion = new Vector3(velocity.x, velocity.y);
+			motion = gBody.Move(motion * Time.deltaTime) / Time.deltaTime;
+			return new Vector2(motion.x, motion.y);
 		}
-
 		#endregion
 
 		#region Interface implenetations
@@ -121,7 +124,7 @@ namespace Characters.Bodies {
 
 			//velocity.x = walkingSpeed * magnitude;
 
-			gBody.Move(transform.right * (magnitude * walkingSpeed * Time.deltaTime));
+			gBody.Move(Vector3.right * (magnitude * walkingSpeed * Time.deltaTime));
 		}
 
 		public void JumpBegin ()
