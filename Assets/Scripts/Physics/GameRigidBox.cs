@@ -54,13 +54,18 @@ namespace GamePhysics {
 				}
 			}
 
-			if(targetTravelDist != maxTravelDist) {
-				finalMotion = initMotion.normalized * targetTravelDist;
+			if(!System.Double.IsNaN(targetTravelDist)) {
+				if(targetTravelDist != maxTravelDist) {
+					finalMotion = initMotion.normalized * targetTravelDist;
+				}
+
+				transform.position += finalMotion;
+
+				return AbsoluteToRelativeRotation() * finalMotion;
 			}
-
-			transform.position += finalMotion;
-
-			return AbsoluteToRelativeRotation() * finalMotion;
+			else {
+				return motion;
+			}
 		} // End Move
 
 
