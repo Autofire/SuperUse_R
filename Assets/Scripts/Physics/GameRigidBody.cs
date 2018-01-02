@@ -36,7 +36,7 @@ namespace GamePhysics {
 
 		#region Relative/absolute functions
 		public Quaternion RelativeToAbsoluteRotation() {
-			return Quaternion.FromToRotation(transform.right, Vector3.right);
+			return transform.rotation;
 		}
 
 		public Quaternion AbsoluteToRelativeRotation() {
