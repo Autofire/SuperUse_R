@@ -1145,8 +1145,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   collisionMask:
-    serializedVersion: 2
-    m_Bits: 1
+    _useInternal: 0
+    internalValue:
+      serializedVersion: 2
+      m_Bits: 1
+    variable: {fileID: 11400000, guid: f0fdb2b504a184fddbd0b557acb062cd, type: 2}
   boundingBox: {fileID: 1859607425}
   skinThickness: 0.05
   debugCasts: 1

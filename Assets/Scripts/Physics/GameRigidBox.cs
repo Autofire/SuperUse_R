@@ -1,14 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using VariableObjects;
 
 namespace GamePhysics {
 
 	public class GameRigidBox : GamePhysics.GameRigidBody {
 
-		[SerializeField] LayerMask collisionMask = -1;
+		[SerializeField] LayerMaskConstReference collisionMask;
 		[SerializeField] BoxCollider boundingBox;
 		[SerializeField] protected float skinThickness = 0.05f;
+
 		[Space(10)]
 		[SerializeField] bool debugCasts         = false;
 		[Range(0, 10)]
@@ -16,6 +18,7 @@ namespace GamePhysics {
 		[SerializeField] Color debugCastAttempt  = Color.yellow;
 		[SerializeField] Color debugCastMiss     = Color.red;
 		[SerializeField] Color debugCastHit      = Color.cyan;
+
 
 		public Vector3 halfBoxSize {
 			get { return boundingBox.size * 0.5f; }
@@ -79,7 +82,7 @@ namespace GamePhysics {
 				hitInfo:      out hitInfo,
 
 				center:       transform.position,   halfExtents:             castBoxSize,
-				direction:    direction,            layerMask:               collisionMask,
+				direction:    direction,            layerMask:               collisionMask.constValue,
 				orientation:  transform.rotation,   queryTriggerInteraction: QueryTriggerInteraction.Ignore,
 				maxDistance:  distance
 			);
@@ -120,7 +123,7 @@ namespace GamePhysics {
 
 			hitInfoAr = Physics.BoxCastAll(
 				center:       transform.position,   halfExtents:             castBoxSize,
-				direction:    direction,            layermask:               collisionMask,
+				direction:    direction,            layermask:               collisionMask.constValue,
 				orientation:  transform.rotation,   queryTriggerInteraction: QueryTriggerInteraction.Ignore,
 				maxDistance:  distance
 			);
