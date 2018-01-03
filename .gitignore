@@ -36,6 +36,7 @@ sysinfo.txt
 # Temporary files from other tools
 *.swp
 .*.swp
+*.orig
 
 
 ### Windows ###
