@@ -1,0 +1,14 @@
+﻿using UnityEngine;
+
+namespace VariableObjects {
+
+	[CreateAssetMenu(menuName="Variable/_Type_")]
+	public class _Type_Variable : Base.Variable<_type_> {}
+
+	[System.Serializable]
+	public class _Type_Reference : Base.Reference<_type_, _Type_Variable> {}
+
+	[System.Serializable]
+	public class _Type_ConstReference : Base.ConstReference<_type_, _Type_Variable> {}
+
+}

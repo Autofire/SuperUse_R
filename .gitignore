@@ -33,6 +33,10 @@ sysinfo.txt
 *.apk
 *.unitypackage
 
+# Temporary files from other tools
+*.swp
+.*.swp
+
 
 ### Windows ###
 # Windows thumbnail cache files
@@ -88,3 +92,5 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+
+

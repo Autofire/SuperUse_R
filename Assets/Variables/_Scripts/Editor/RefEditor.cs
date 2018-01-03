@@ -2,11 +2,10 @@
 using UnityEditor;
 using VariableObjects;
 
-[CustomPropertyDrawer(typeof(LayerMaskConstReference))]
-[CustomPropertyDrawer(typeof(LayerMaskReference))]
+// Automatic insertion point
+[CustomPropertyDrawer(typeof(LayerMaskReference))] [CustomPropertyDrawer(typeof(LayerMaskConstReference))]
+[CustomPropertyDrawer(typeof(FloatReference))] [CustomPropertyDrawer(typeof(FloatConstReference))]
 
-[CustomPropertyDrawer(typeof(FloatConstReference))]
-[CustomPropertyDrawer(typeof(FloatReference))]
 public class RefEditor : PropertyDrawer {
 
 	override public void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
