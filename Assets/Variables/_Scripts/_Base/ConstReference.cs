@@ -13,7 +13,7 @@ namespace VariableObjects.Base {
 		[SerializeField] protected VarType variable;
 
 		public bool useInternal {
-			get { return useInternal; }
+			get { return _useInternal; }
 		}
 
 		public Type constValue {
