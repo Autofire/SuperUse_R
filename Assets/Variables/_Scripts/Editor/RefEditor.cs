@@ -2,7 +2,8 @@
 using UnityEditor;
 using VariableObjects;
 
-// Automatic insertion point
+// DO NOT REMOVE - Automatic insertion point
+[CustomPropertyDrawer(typeof(BoolReference))] [CustomPropertyDrawer(typeof(BoolConstReference))]
 [CustomPropertyDrawer(typeof(LayerMaskReference))] [CustomPropertyDrawer(typeof(LayerMaskConstReference))]
 [CustomPropertyDrawer(typeof(FloatReference))] [CustomPropertyDrawer(typeof(FloatConstReference))]
 

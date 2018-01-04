@@ -1152,7 +1152,10 @@ MonoBehaviour:
     variable: {fileID: 11400000, guid: f0fdb2b504a184fddbd0b557acb062cd, type: 2}
   boundingBox: {fileID: 1859607425}
   skinThickness: 0.05
-  debugCasts: 1
+  debugCasts:
+    _useInternal: 0
+    internalValue: 0
+    variable: {fileID: 11400000, guid: 766c5a3c0e0f445909e41040f9c0114b, type: 2}
   debugCastLifetime: 0.1
   debugCastAttempt: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   debugCastMiss: {r: 1, g: 0, b: 0, a: 1}

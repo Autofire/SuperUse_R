@@ -12,7 +12,7 @@ namespace GamePhysics {
 		[SerializeField] protected float skinThickness = 0.05f;
 
 		[Space(10)]
-		[SerializeField] bool debugCasts         = false;
+		[SerializeField] BoolConstReference debugCasts;
 		[Range(0, 10)]
 		[SerializeField] float debugCastLifetime = 0.1f;
 		[SerializeField] Color debugCastAttempt  = Color.yellow;
@@ -89,7 +89,7 @@ namespace GamePhysics {
 
 
 			#if UNITY_EDITOR
-			if(debugCasts) {
+			if(debugCasts.constValue) {
 				ExtDebug.DrawBoxCastBox(
 					origin:      transform.position, halfExtents: castBoxSize,
 					orientation: transform.rotation, direction:   direction,
@@ -130,7 +130,7 @@ namespace GamePhysics {
 
 
 			#if UNITY_EDITOR
-			if(debugCasts) {
+			if(debugCasts.constValue) {
 				ExtDebug.DrawBoxCastBox(
 					origin:      transform.position, halfExtents: castBoxSize,
 					orientation: transform.rotation, direction:   direction,
