@@ -63,7 +63,8 @@ namespace Cinemachine
         /// If this is null, then the vcam's Transform orientation will be used.</summary>
         [Tooltip("The object that the camera wants to look at (the Aim target).  If this is null, then the vcam's Transform orientation will define the camera's orientation.")]
         [NoSaveDuringPlay]
-        public Transform m_LookAt = null;
+        //public Transform m_LookAt = null;
+        public VariableObjects.TransformReference m_LookAt = null;
 
         /// <summary>The object that the camera wants to move with (the Body target).
         /// The Body component of the CinemachineComponent pipeline
@@ -72,7 +73,7 @@ namespace Cinemachine
         /// If this is null, then the vcam's Transform position will be used.</summary>
         [Tooltip("The object that the camera wants to move with (the Body target).  If this is null, then the vcam's Transform position will define the camera's position.")]
         [NoSaveDuringPlay]
-        public Transform m_Follow = null;
+        public VariableObjects.TransformReference m_Follow = null;
 
         /// <summary>Specifies the LensSettings of this Virtual Camera.
         /// These settings will be transferred to the Unity camera when the vcam is live.</summary>
@@ -98,8 +99,8 @@ namespace Cinemachine
         /// will be used if the local target is null.</summary>
         override public Transform LookAt
         {
-            get { return ResolveLookAt(m_LookAt); }
-            set { m_LookAt = value; }
+            get { return ResolveLookAt(m_LookAt.value); }
+            set { m_LookAt.value = value; }
         }
 
         /// <summary>Get the Follow target for the Body component in the CinemachinePipeline.
@@ -107,8 +108,8 @@ namespace Cinemachine
         /// will be used if the local target is null.</summary>
         override public Transform Follow
         {
-            get { return ResolveFollow(m_Follow); }
-            set { m_Follow = value; }
+            get { return ResolveFollow(m_Follow.value); }
+            set { m_Follow.value = value; }
         }
 
         /// <summary>Called by CinemachineCore at LateUpdate time

@@ -17,6 +17,25 @@ namespace VariableObjects.Base {
 		[SerializeField] protected Type internalValue;
 		[SerializeField] protected VarType variable;
 
+		protected bool useInternal {
+			get {
+				if(_useInternal) {
+					return true;
+				}
+				else if(variable == null) {
+					Debug.LogWarning(
+						"Reference of type " + internalValue.GetType().Name
+						+ " tried to reference a variable, but came up empty!"
+					);
+
+					return true;
+				}
+				else {
+					return false;
+				}
+			}
+		}
+
 		// In theory, we could create a copy of the object and then
 		// return that, but this can get really piggy (or, in some cases,
 		// impossible) when it comes to objects.
@@ -30,7 +49,7 @@ namespace VariableObjects.Base {
 		/// <value>The const value.</value>
 		public Type constValue {
 			get {
-				return _useInternal ? internalValue : variable.value;
+				return useInternal ? internalValue : variable.value;
 			}
 		} // End value
 

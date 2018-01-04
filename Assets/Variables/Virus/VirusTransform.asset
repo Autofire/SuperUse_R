@@ -8,9 +8,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e77dbe031a53487895018545bdc263a, type: 3}
-  m_Name: PlayerCollisionMask
+  m_Script: {fileID: 11500000, guid: 9424246adc4d97f41a5c1896d6e964ea, type: 3}
+  m_Name: VirusTransform
   m_EditorClassIdentifier: 
-  value:
-    serializedVersion: 2
-    m_Bits: 1
+  value: {fileID: 0}

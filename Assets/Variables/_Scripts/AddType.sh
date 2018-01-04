@@ -30,8 +30,8 @@ EDITOR_TMP_FILE="${EDITOR_FILE}.orig"
 EDITOR_MARK="DO NOT REMOVE - Automatic insertion point"
 ATTRIB_TEMPLATE="Editor/AttributeTemplate.txt"
 
-SED=gsed
-AWK=gawk
+SED=sed
+AWK=awk
 
 
 echo "Creating ${DEST}..."

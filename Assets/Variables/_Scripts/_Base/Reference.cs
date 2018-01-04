@@ -22,7 +22,7 @@ namespace VariableObjects.Base {
 				return constValue;
 			}
 			set {
-				if(_useInternal) {
+				if(useInternal) {
 					internalValue = value;
 				}
 				else {
