@@ -579,12 +579,12 @@ Prefab:
         type: 2}
       propertyPath: triggerEnter.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1731167546}
+      objectReference: {fileID: 1731167549}
     - target: {fileID: 114274553831297242, guid: cf7b8c5977e5a4445904d5b5243d0f68,
         type: 2}
       propertyPath: triggerExit.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1731167546}
+      objectReference: {fileID: 1731167549}
     - target: {fileID: 114274553831297242, guid: cf7b8c5977e5a4445904d5b5243d0f68,
         type: 2}
       propertyPath: triggerEnter.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -1690,7 +1690,7 @@ GameObject:
   m_PrefabParentObject: {fileID: 1464860222727166, guid: cf7b8c5977e5a4445904d5b5243d0f68,
     type: 2}
   m_PrefabInternal: {fileID: 847903910}
---- !u!114 &1731167546
+--- !u!114 &1731167549
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -1794,6 +1794,29 @@ Transform:
   m_PrefabParentObject: {fileID: 4307672956056420, guid: 682ad084a388643c3a19a6511aeb87b9,
     type: 2}
   m_PrefabInternal: {fileID: 936596552}
+--- !u!1 &1883179539 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1409206337339112, guid: cf7b8c5977e5a4445904d5b5243d0f68,
+    type: 2}
+  m_PrefabInternal: {fileID: 847903910}
+--- !u!114 &1883179540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1883179539}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffac5e40ccbf72e4fa848f432d6ea75a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  trackedObj: {fileID: 1883179541}
+--- !u!114 &1883179541 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114467079712842600, guid: cf7b8c5977e5a4445904d5b5243d0f68,
+    type: 2}
+  m_PrefabInternal: {fileID: 847903910}
+  m_Script: {fileID: 11500000, guid: d37c2cf88f7c59f4c8cf5d3812568143, type: 3}
 --- !u!1 &1935520069
 GameObject:
   m_ObjectHideFlags: 0
@@ -2064,3 +2087,26 @@ Mesh:
   m_BakedConvexCollisionMesh: 
   m_BakedTriangleCollisionMesh: 
   m_MeshOptimized: 0
+--- !u!1 &2003000555 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1992723602834784, guid: cf7b8c5977e5a4445904d5b5243d0f68,
+    type: 2}
+  m_PrefabInternal: {fileID: 847903910}
+--- !u!114 &2003000556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2003000555}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffac5e40ccbf72e4fa848f432d6ea75a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  trackedObj: {fileID: 2003000557}
+--- !u!114 &2003000557 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114757928217844394, guid: cf7b8c5977e5a4445904d5b5243d0f68,
+    type: 2}
+  m_PrefabInternal: {fileID: 847903910}
+  m_Script: {fileID: 11500000, guid: d37c2cf88f7c59f4c8cf5d3812568143, type: 3}

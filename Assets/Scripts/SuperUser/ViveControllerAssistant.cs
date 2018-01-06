@@ -15,10 +15,6 @@ namespace SuperUser {
 
 		#region Unity events
 		private void Awake() {
-			OnValidate();
-		}
-
-		private void OnValidate() {
 			Assert.IsNotNull(trackedObj);
 		}
 		#endregion

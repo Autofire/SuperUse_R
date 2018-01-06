@@ -3,7 +3,7 @@
 namespace VariableObjects {
 
 	[CreateAssetMenu(menuName="Variable/_TypeName_")]
-	public class _TypeName_Variable : Base.Variable<_type_> {}
+	public class _TypeName_Variable : Base._Nullable_Variable<_type_> {}
 
 	[System.Serializable]
 	public class _TypeName_Reference : Base.Reference<_type_, _TypeName_Variable> {}

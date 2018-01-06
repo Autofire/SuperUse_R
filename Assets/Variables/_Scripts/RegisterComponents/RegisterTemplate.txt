@@ -1,0 +1,5 @@
+﻿using UnityEngine;
+
+namespace VariableObjects {
+	public class Register_TypeName_ : VariableObjects.Base.Register<_type_, _TypeName_Variable> { }
+}
