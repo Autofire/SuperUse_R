@@ -11,6 +11,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e77dbe031a53487895018545bdc263a, type: 3}
   m_Name: VirusCollisionMask
   m_EditorClassIdentifier: 
-  value:
+  _value:
     serializedVersion: 2
     m_Bits: 1
