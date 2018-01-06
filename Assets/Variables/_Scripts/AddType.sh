@@ -105,7 +105,7 @@ $AWK -v searchStr="$EDITOR_MARK" -v key="${EDITOR_MARK}\n${attrib}" '{sub(search
 
 if [ "$nullable" != "" ]; then
 	echo "Creating ${REGISTER_DEST}..."
-	$SED -E -e "s/${TYPE_TEMPLATE}/${type}/g" -e "s/${TYPE_NAME_TEMPLATE}/${typeName}/g" -e "s/${NULLABLE_TEMPLATE}/${nullable}/g" $REGISTER_TEMPLATE_FILE > $REGISTER_DEST
+	$SED -E -e "s/${TYPE_TEMPLATE}/${type}/g" -e "s/${NULLABLE_TEMPLATE}/${nullable}/g" -e "s/${TYPE_NAME_TEMPLATE}/${typeName}/g" -e "s/${NULLABLE_TEMPLATE}/${nullable}/g" $REGISTER_TEMPLATE_FILE > $REGISTER_DEST
 fi
 
 

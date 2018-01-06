@@ -1,1 +1,1 @@
-[CustomPropertyDrawer(typeof(_Type_Reference))] [CustomPropertyDrawer(typeof(_Type_ConstReference))]
+[CustomPropertyDrawer(typeof(_TypeName_Reference))] [CustomPropertyDrawer(typeof(_TypeName_ConstReference))]
