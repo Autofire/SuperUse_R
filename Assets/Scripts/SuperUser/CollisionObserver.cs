@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
+using EventObjects;
 
 namespace SuperUser {
 
@@ -10,18 +11,18 @@ namespace SuperUser {
 
 		[Tooltip("Only invoke the events when colliding with this collider")]
 		[SerializeField] private Collider target;
-		[SerializeField] private UnityEvent triggerEnter;
-		[SerializeField] private UnityEvent triggerExit;
+		[SerializeField] private GameEvent triggerEnter;
+		[SerializeField] private GameEvent triggerExit;
 
 		private void OnTriggerEnter(Collider other) {
 			if(other == target) {
-				triggerEnter.Invoke();
+				triggerEnter.Raise();
 			}
 		}
 
 		private void OnTriggerExit(Collider other) {
 			if(other == target) {
-				triggerExit.Invoke();
+				triggerExit.Raise();
 			}
 		}
 
