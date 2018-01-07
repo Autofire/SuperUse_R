@@ -6,8 +6,8 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Wall
-  m_Shader: {fileID: 4800000, guid: 6b3536f95a9b5a548a605fc5df44e22c, type: 3}
+  m_Name: MatrixEffect
+  m_Shader: {fileID: 4800000, guid: 8077f508a259dae4aba0847b65f6eb38, type: 3}
   m_ShaderKeywords: _GLOSSYREFLECTIONS_OFF _SPECULARHIGHLIGHTS_OFF
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -54,31 +54,27 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _SpecGlossMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     m_Floats:
     - _BumpScale: 1
     - _Cutoff: 0.5
+    - _Density: 30
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 0
-    - _LineWidth: 0.14
+    - _Grid: 50
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _ParcelSize: 0.7
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 0
+    - _SpeedMax: 1.6
+    - _SpeedMin: 0.11
     - _SrcBlend: 1
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _LineColor: {r: 1, g: 0.78676474, b: 0.98529416, a: 1}
-    - _MainColor: {r: 0, g: 0.06135896, b: 0.16176462, a: 1}

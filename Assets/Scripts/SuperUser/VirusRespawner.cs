@@ -9,7 +9,8 @@ namespace SuperUser {
 
 		[SerializeField]
 		private FloatConstReference chargeTime;
-
+		[SerializeField]
+		private IntConstReference rampExponent;
 
 		[Space(10)]
 		[SerializeField]
@@ -27,10 +28,14 @@ namespace SuperUser {
 		private void FixedUpdate() {
 			if(isCharging) {
 				float charge = Mathf.Clamp01((Time.time - chargeStartTime) / chargeTime.constValue);
-				float chargeScale = charge * charge * charge;
+				float rampedCharge = 1f;
 
-				leftAssistant.value.PulseVibration(chargeScale);
-				rightAssistant.value.PulseVibration(chargeScale);
+				for(int i = 0; i < rampExponent.constValue; i++) {
+					rampedCharge *= charge;
+				}
+
+				leftAssistant.value.PulseVibration(rampedCharge);
+				rightAssistant.value.PulseVibration(rampedCharge);
 			}
 		}
 
