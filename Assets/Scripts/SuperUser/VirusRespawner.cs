@@ -10,6 +10,8 @@ namespace SuperUser {
 		[SerializeField]
 		private FloatConstReference chargeTime;
 
+
+		[Space(10)]
 		[SerializeField]
 		private ViveControllerAssistantReference leftAssistant;
 		[SerializeField]
@@ -24,11 +26,11 @@ namespace SuperUser {
 
 		private void FixedUpdate() {
 			if(isCharging) {
-				float vibrationStrength = (Time.time - chargeStartTime) / chargeTime.constValue;
-				vibrationStrength *= vibrationStrength;
+				float charge = Mathf.Clamp01((Time.time - chargeStartTime) / chargeTime.constValue);
+				float chargeScale = charge * charge * charge;
 
-				leftAssistant.value.PulseVibration(vibrationStrength);
-				rightAssistant.value.PulseVibration(vibrationStrength);
+				leftAssistant.value.PulseVibration(chargeScale);
+				rightAssistant.value.PulseVibration(chargeScale);
 			}
 		}
 
