@@ -11,4 +11,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdcecf7824c29439d8e4b9e44c98847d, type: 3}
   m_Name: DebugPhysicsCasts
   m_EditorClassIdentifier: 
-  _value: 1
+  _value: 0

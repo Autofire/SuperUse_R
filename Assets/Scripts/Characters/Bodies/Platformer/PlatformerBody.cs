@@ -59,6 +59,8 @@ namespace Characters.Bodies {
 		[SerializeField] string jumpTriggerName   = "Jumped";
 		[Range(0f,1f)]
 		[SerializeField] float jumpAnimScale = 1f;
+		[Tooltip("If true, the will appear to walk even if something stops us from walking.")]
+		[SerializeField] bool animateByIntendedSpeed = true;
 
 
 		float gravity;
@@ -121,10 +123,13 @@ namespace Characters.Bodies {
 		public void MoveX(float magnitude) {
 			magnitude = Mathf.Clamp(magnitude, -1f, 1f);
 
-			gBody.Move(Vector3.right * (magnitude * walkingSpeed * Time.deltaTime));
+			Vector3 moveAmount = gBody.Move(Vector3.right * (magnitude * walkingSpeed * Time.deltaTime));
 
 			if(animator != null) {
-				animator.SetFloat(moveFloatName, Mathf.Abs(magnitude) );
+				animator.SetFloat(
+					moveFloatName,
+					animateByIntendedSpeed ? Mathf.Abs(magnitude) : Mathf.Abs(moveAmount.x) / Time.deltaTime
+				);
 			}
 
 			if(rotationTarget != null) {

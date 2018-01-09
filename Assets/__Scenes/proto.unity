@@ -719,51 +719,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 114379650888452156, guid: 682ad084a388643c3a19a6511aeb87b9,
-        type: 2}
-      propertyPath: moveFloatName
-      value: Forward
-      objectReference: {fileID: 0}
-    - target: {fileID: 114379650888452156, guid: 682ad084a388643c3a19a6511aeb87b9,
-        type: 2}
-      propertyPath: groundBoolName
-      value: OnGround
-      objectReference: {fileID: 0}
-    - target: {fileID: 114379650888452156, guid: 682ad084a388643c3a19a6511aeb87b9,
-        type: 2}
-      propertyPath: verticalFloatName
-      value: Vertical
-      objectReference: {fileID: 0}
-    - target: {fileID: 114379650888452156, guid: 682ad084a388643c3a19a6511aeb87b9,
-        type: 2}
-      propertyPath: jumpTriggerName
-      value: Jumped
-      objectReference: {fileID: 0}
-    - target: {fileID: 114379650888452156, guid: 682ad084a388643c3a19a6511aeb87b9,
-        type: 2}
-      propertyPath: animator
-      value: 
-      objectReference: {fileID: 2130045361}
-    - target: {fileID: 114379650888452156, guid: 682ad084a388643c3a19a6511aeb87b9,
-        type: 2}
-      propertyPath: jumpAnimScale
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114379650888452156, guid: 682ad084a388643c3a19a6511aeb87b9,
-        type: 2}
-      propertyPath: rotationTarget
-      value: 
-      objectReference: {fileID: 2130045360}
-    - target: {fileID: 114379650888452156, guid: 682ad084a388643c3a19a6511aeb87b9,
-        type: 2}
-      propertyPath: rightRotation.y
-      value: -90
-      objectReference: {fileID: 0}
-    - target: {fileID: 114379650888452156, guid: 682ad084a388643c3a19a6511aeb87b9,
-        type: 2}
-      propertyPath: leftRotation.y
-      value: 90
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 682ad084a388643c3a19a6511aeb87b9, type: 2}
   m_IsPrefabParent: 0
@@ -1446,7 +1401,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1619420264}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -12.46, y: 2.91, z: -10}
+  m_LocalPosition: {x: -9, y: 1.5, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1942661978}
@@ -2061,13 +2016,3 @@ MonoBehaviour:
   onLoneEnter: {fileID: 0}
   onExit: {fileID: 0}
   onAllExit: {fileID: 0}
---- !u!4 &2130045360 stripped
-Transform:
-  m_PrefabParentObject: {fileID: 4315051511851186, guid: 682ad084a388643c3a19a6511aeb87b9,
-    type: 2}
-  m_PrefabInternal: {fileID: 936596552}
---- !u!95 &2130045361 stripped
-Animator:
-  m_PrefabParentObject: {fileID: 95702887011588310, guid: 682ad084a388643c3a19a6511aeb87b9,
-    type: 2}
-  m_PrefabInternal: {fileID: 936596552}
