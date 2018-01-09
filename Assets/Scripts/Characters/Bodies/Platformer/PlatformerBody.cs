@@ -46,6 +46,21 @@ namespace Characters.Bodies {
 		[Range(0f, 10f)]
 		[SerializeField] float normalGravityScale = 3f;
 
+		[Header("Animation")]
+		[SerializeField] Transform rotationTarget;
+		[SerializeField] Vector3 rightRotation;
+		[SerializeField] Vector3 leftRotation;
+
+		[Space(10)]
+		[SerializeField] Animator animator;
+		[SerializeField] string moveFloatName     = "Forward";
+		[SerializeField] string groundBoolName    = "OnGround";
+		[SerializeField] string verticalFloatName = "Vertical"; 
+		[SerializeField] string jumpTriggerName   = "Jumped";
+		[Range(0f,1f)]
+		[SerializeField] float jumpAnimScale = 1f;
+
+
 		float gravity;
 		//bool isJumping;
 
@@ -87,11 +102,17 @@ namespace Characters.Bodies {
 		override protected void Update() {
 			base.Update();
 
+			if(animator != null) {
+				animator.SetFloat(verticalFloatName, gBody.velocity.y * jumpAnimScale);
+				animator.SetBool(groundBoolName, IsStanding());
+			}
+
 			gBody.velocity += Vector3.up * (gravity * Time.deltaTime);
 
 			if(gBody.velocity.y <= 0f) {
 				gravity = normalGravity;
 			}
+
 		}
 		#endregion
 
@@ -100,13 +121,23 @@ namespace Characters.Bodies {
 		public void MoveX(float magnitude) {
 			magnitude = Mathf.Clamp(magnitude, -1f, 1f);
 
-			//velocity.x = walkingSpeed * magnitude;
-
 			gBody.Move(Vector3.right * (magnitude * walkingSpeed * Time.deltaTime));
+
+			if(animator != null) {
+				animator.SetFloat(moveFloatName, Mathf.Abs(magnitude) );
+			}
+
+			if(rotationTarget != null) {
+				if(magnitude > 0f) {
+					rotationTarget.localRotation = Quaternion.Euler(rightRotation);
+				}
+				else if(magnitude < 0f) {	// Yes we make this check too; otherwise we'd flip when we hold still.
+					rotationTarget.localRotation = Quaternion.Euler(leftRotation);
+				}
+			}
 		}
 
-		public void JumpBegin ()
-		{
+		public void JumpBegin () {
 			if(IsStanding()) {
 				//isJumping = true;
 
@@ -114,10 +145,17 @@ namespace Characters.Bodies {
 				gBody.velocity = new Vector3(gBody.velocity.x, jumpVelocity, gBody.velocity.z);
 			}
 
+			if(animator != null) {
+				animator.SetTrigger(jumpTriggerName);
+			}
 		}
 		public void JumpEnd ()
 		{
 			gravity = normalGravity;
+
+			if(animator != null) {
+				animator.ResetTrigger(jumpTriggerName);
+			}
 		}
 
 		public bool IsStanding() {
