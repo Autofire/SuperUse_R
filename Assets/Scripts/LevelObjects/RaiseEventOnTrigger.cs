@@ -19,7 +19,7 @@ public class RaiseEventOnTrigger : MonoBehaviour {
 	int inhabitantCount;
 
 	private void Update() {
-		Debug.Log(inhabitantCount);
+		//Debug.Log(inhabitantCount);
 	}
 
 	private void OnTriggerEnter() {

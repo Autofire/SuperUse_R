@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.180284, g: 0.22571434, b: 0.306924, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -599,6 +599,9 @@ GameObject:
   - component: {fileID: 810660760}
   - component: {fileID: 810660759}
   - component: {fileID: 810660758}
+  - component: {fileID: 810660761}
+  - component: {fileID: 810660762}
+  - component: {fileID: 810660763}
   m_Layer: 0
   m_Name: Door1
   m_TagString: Untagged
@@ -672,6 +675,86 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 810660756}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &810660761
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 810660756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83fa1cb37729e314ab95edd17000d602, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _triggerEvent: {fileID: 11400000, guid: 922b6f4aa7b5148a08aa454c198c5dd5, type: 2}
+  _response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 810660763}
+        m_MethodName: SetOpen
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+--- !u!114 &810660762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 810660756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83fa1cb37729e314ab95edd17000d602, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _triggerEvent: {fileID: 11400000, guid: fec402f066fba4d6986ecc8d473a4dbf, type: 2}
+  _response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 810660763}
+        m_MethodName: SetOpen
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+--- !u!114 &810660763
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 810660756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fef558b3201f90646a4c43b80a49edf4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  openTime:
+    _useInternal: 1
+    internalValue: 0.5
+    variable: {fileID: 0}
+  closeTime:
+    _useInternal: 1
+    internalValue: 5
+    variable: {fileID: 0}
+  openOffset: {x: 0, y: 5, z: 0}
+  isOpen:
+    _useInternal: 1
+    internalValue: 0
+    variable: {fileID: 0}
 --- !u!1 &849017644
 GameObject:
   m_ObjectHideFlags: 0
@@ -956,23 +1039,19 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 33419136654376124, guid: cf7b8c5977e5a4445904d5b5243d0f68,
-        type: 2}
-      propertyPath: m_Mesh
-      value: 
-      objectReference: {fileID: 484610996}
     - target: {fileID: 23697576144196306, guid: cf7b8c5977e5a4445904d5b5243d0f68,
         type: 2}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 1004964418}
+    - target: {fileID: 33419136654376124, guid: cf7b8c5977e5a4445904d5b5243d0f68,
+        type: 2}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 484610996}
     - target: {fileID: 114650042563606302, guid: cf7b8c5977e5a4445904d5b5243d0f68,
         type: 2}
       propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1527228773025800, guid: cf7b8c5977e5a4445904d5b5243d0f68, type: 2}
-      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -1491,7 +1570,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1619420264}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -9, y: 1.5, z: -10}
+  m_LocalPosition: {x: -12.46, y: 2.91, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1942661978}
