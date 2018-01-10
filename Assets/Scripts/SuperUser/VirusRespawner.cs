@@ -7,9 +7,9 @@ namespace SuperUser {
 	public class VirusRespawner : MonoBehaviour {
 
 		[SerializeField]
-		private FloatConstReference chargeTime;
+		private FloatConstReference chargeDuration;
+		private GameObjectConstReference chargeObject;
 
-		[Space(10)]
 		[Header("Haptic feedback")]
 		[Tooltip("This should be something between 0 and 1")]
 		[SerializeField] private FloatConstReference maxChargeStrength;
@@ -18,7 +18,6 @@ namespace SuperUser {
 		[Tooltip("Once the charge is maxed out, the vibration will oscillate for this long before returning to the normal amount.")]
 		[SerializeField] private FloatConstReference maxChargeAlertDuration;
 
-		[Space(10)]
 		[Header("Object setup")]
 		[SerializeField] private VirusRespawner otherRespawner;
 		[SerializeField] private TransformConstReference respawnTransform;
@@ -26,6 +25,9 @@ namespace SuperUser {
 
 		float chargeStartTime;
 		bool isCharging;
+
+
+		#region Unity events
 
 		private void Awake() {
 			isCharging = false;
@@ -43,7 +45,7 @@ namespace SuperUser {
 			Assert.IsNotNull(assistant);
 		}
 
-		private void FixedUpdate() {
+		private void Update() {
 			if(assistant.value.Controller.GetPressDown(SteamVR_Controller.ButtonMask.Trigger)) {
 				BeginRespawnCharge();
 			}
@@ -53,41 +55,53 @@ namespace SuperUser {
 			}
 
 			if(isCharging) {
-				if(Time.fixedTime - chargeStartTime > chargeTime.constValue && Time.fixedTime - chargeStartTime < chargeTime.constValue + maxChargeAlertDuration.constValue) {
-					// We've just hit the peak of the charge. We want to do a different kind of vibration.
-
-					// We use PerlinNoise here because it gives a nice, consistent "rumble"
-					assistant.value.PulseVibration(Mathf.PerlinNoise(10 * (Time.fixedTime - chargeStartTime), 0f));
-				}
-				else {
-					// We're charging or have finished charging for a while now.
-					float charge = Mathf.Clamp01((Time.fixedTime - chargeStartTime) / chargeTime.constValue);
-
-					float rampedCharge = 1f;
-
-					for(int i = 0; i < rampExponent.constValue; i++) {
-						rampedCharge *= charge;
-					}
-
-					assistant.value.PulseVibration(Mathf.Min(rampedCharge, maxChargeStrength.constValue));
-				}
+				ProvideHapticFeedback(Time.time - chargeStartTime);
 			}
 		}
 
-		public void BeginRespawnCharge() {
+		#endregion
+
+
+		#region Private methods
+
+		private void BeginRespawnCharge() {
 			isCharging = true;
 			chargeStartTime = Time.time;
 		}
 
-		public void EndRespawnCharge() {
-			if(Time.time > chargeStartTime + chargeTime.constValue) {
-				Debug.Log("Heroes never die!\n" + (chargeStartTime + chargeTime.constValue - Time.time).ToString());
+		private void EndRespawnCharge() {
+			if(Time.time > chargeStartTime + chargeDuration.constValue) {
+				Debug.Log("Heroes never die!\n" + (chargeStartTime + chargeDuration.constValue - Time.time).ToString());
 			}
 			else {
-				Debug.Log("Oops\n" + (chargeStartTime + chargeTime.constValue - Time.time).ToString());
+				Debug.Log("Oops\n" + (chargeStartTime + chargeDuration.constValue - Time.time).ToString());
 			}
 
 			isCharging = false;
 		}
+
+		private void ProvideHapticFeedback(float chargeTime) {
+			if(chargeTime > chargeDuration.constValue && chargeTime < chargeDuration.constValue + maxChargeAlertDuration.constValue) {
+				// We've just hit the peak of the charge. We want to do a different kind of vibration.
+
+				// We use PerlinNoise here because it gives a nice, consistent "rumble"
+				assistant.value.PulseVibration(Mathf.PerlinNoise(10 * (chargeTime), 0f));
+			}
+			else {
+				// We're charging or have finished charging for a while now.
+				float charge = Mathf.Clamp01(chargeTime / chargeDuration.constValue);
+
+				float rampedCharge = 1f;
+
+				for(int i = 0; i < rampExponent.constValue; i++) {
+					rampedCharge *= charge;
+				}
+
+				assistant.value.PulseVibration(Mathf.Min(rampedCharge, maxChargeStrength.constValue));
+			}
+		}
+
+		#endregion
+
 	} // End class
 } // End namespace
