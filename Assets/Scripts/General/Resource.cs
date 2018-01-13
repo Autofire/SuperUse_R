@@ -13,16 +13,45 @@ public class Resource {
 	[SerializeField] private IntReference _current;
 
 	#region Properties
+	/// <summary>
+	/// Gets or sets the maximum value. If you are changing both the min and the max at the same time, please call the
+	/// ChangeBounds function instead of changing this.
+	/// </summary>
+	/// <value>The maximum amount of this resource that can be held at one time.</value>
 	public int max {
 		get { return _max.constValue; }
+		set {
+			if(value != _max.constValue) {
+				ChangeBounds(value, min);
+			}
+		}
 	}
 
+	/// <summary>
+	/// Gets or sets the minimum value. If you are changing both the min and the max at the same time, please call the
+	/// ChangeBounds function instead of changing this.
+	/// </summary>
+	/// <value>The minimum amount of this resource that can be held at one time.</value>
 	public int min {
 		get { return _min.constValue; }
+		set {
+			if(value != _min.constValue) {
+				ChangeBounds(value, max);
+			}
+		}
 	}
 
+	/// <summary>
+	/// Gets or sets the current resource count. When setting, it will be clamped between min and max.
+	/// </summary>
+	/// <value>The current resource count.</value>
 	public int current {
 		get { return _current.constValue; }
+		set { 
+			if(value != _current.constValue) {
+				_current.value = Mathf.Clamp(value, min, max);
+			}
+		}
 	}
 	#endregion
 

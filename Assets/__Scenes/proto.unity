@@ -977,7 +977,8 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114206167923780342, guid: 682ad084a388643c3a19a6511aeb87b9, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 682ad084a388643c3a19a6511aeb87b9, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &936596553 stripped
@@ -991,15 +992,15 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 936596553}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a4260aaa4534431ca4ffcfc4d9bf2c6, type: 3}
+  m_Script: {fileID: 11500000, guid: 9191a6ca737ca42a8aefdd74b6273c8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   life:
     _max:
       _useInternal: 1
-      internalValue: 10
+      internalValue: 5
       variable: {fileID: 0}
     _min:
       _useInternal: 1
@@ -1009,7 +1010,7 @@ MonoBehaviour:
       _useInternal: 1
       internalValue: 0
       variable: {fileID: 0}
-  delta: 0
+  _myTeam: {fileID: 11400000, guid: 3c99bcf250a3747f884cc8fb872d12dc, type: 2}
 --- !u!21 &1004964418
 Material:
   serializedVersion: 6
@@ -1688,7 +1689,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1619420264}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -9, y: 1.5, z: -10}
+  m_LocalPosition: {x: -12.46, y: 2.91, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1942661978}
