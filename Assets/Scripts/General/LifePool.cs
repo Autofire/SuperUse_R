@@ -47,6 +47,14 @@ public class LifePool : MonoBehaviour {
 	}
 
 	/// <summary>
+	/// Applies the given damage amount without caring about teams.
+	/// </summary>
+	/// <param name="damage">Damage.</param>
+	public void Hurt(int damage) {
+		life.Change(-damage);
+	}
+
+	/// <summary>
 	/// Restore health to this life pool based on the given amount, so long as the healing team is not enemies with this
 	/// team.
 	/// </summary>
@@ -76,5 +84,13 @@ public class LifePool : MonoBehaviour {
 		int tmp;
 
 		return Heal(healAmount, healingTeam, out tmp);
+	}
+
+	/// <summary>
+	/// Heals by the specified amount without caring about teams.
+	/// </summary>
+	/// <param name="healAmount">Heal amount.</param>
+	public void Heal(int healAmount) {
+		life.Change(healAmount);
 	}
 }

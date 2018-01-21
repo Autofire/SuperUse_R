@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using VariableObjects;
+using EventObjects;
 
 namespace GamePhysics {
 
@@ -10,6 +12,9 @@ namespace GamePhysics {
 		[SerializeField] LayerMaskConstReference collisionMask;
 		[SerializeField] BoxCollider boundingBox;
 		[SerializeField] protected float skinThickness = 0.05f;
+		[Tooltip("This gets invoked when the object gets crushed.")]
+	//	[SerializeField] GameEvent crushEvent;
+		[SerializeField] GameEventInvoker crushEvent;
 
 		[Space(10)]
 		[SerializeField] BoolConstReference debugCasts;
@@ -45,10 +50,19 @@ namespace GamePhysics {
 			foreach(RaycastHit hitInfo in allHitInfo) {
 
 				if(hitInfo.distance == 0 && hitInfo.point == Vector3.zero) {
-					Debug.LogError(
-						transform.gameObject.name + " is stuck inside an object named " + hitInfo.collider.gameObject.name + '\n'
-						+ "No movement will be made on the object until it's freed."
-					);
+
+					string message = 
+						transform.gameObject.name + " is stuck inside an object named " + hitInfo.collider.gameObject.name;
+
+					//if(crushEvent != null) {
+					if(crushEvent.HasEvents()) {
+						Debug.LogWarning(message);
+						//crushEvent.Raise();
+						crushEvent.Invoke();
+					}
+					else {
+						Debug.LogError(message + "\nNo further movement will be made on the object until it's freed.");
+					}
 
 					targetTravelDist = 0;
 				}

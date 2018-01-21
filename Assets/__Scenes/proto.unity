@@ -945,6 +945,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114237169810942008, guid: 682ad084a388643c3a19a6511aeb87b9,
+        type: 2}
+      propertyPath: crushEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4307672956056420, guid: 682ad084a388643c3a19a6511aeb87b9, type: 2}
       propertyPath: m_LocalPosition.x
       value: -12.46
@@ -976,6 +981,36 @@ Prefab:
     - target: {fileID: 4307672956056420, guid: 682ad084a388643c3a19a6511aeb87b9, type: 2}
       propertyPath: m_RootOrder
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114237169810942008, guid: 682ad084a388643c3a19a6511aeb87b9,
+        type: 2}
+      propertyPath: crushEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114237169810942008, guid: 682ad084a388643c3a19a6511aeb87b9,
+        type: 2}
+      propertyPath: crushEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114237169810942008, guid: 682ad084a388643c3a19a6511aeb87b9,
+        type: 2}
+      propertyPath: crushEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 936596554}
+    - target: {fileID: 114237169810942008, guid: 682ad084a388643c3a19a6511aeb87b9,
+        type: 2}
+      propertyPath: crushEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Hurt
+      objectReference: {fileID: 0}
+    - target: {fileID: 114237169810942008, guid: 682ad084a388643c3a19a6511aeb87b9,
+        type: 2}
+      propertyPath: crushEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 114237169810942008, guid: 682ad084a388643c3a19a6511aeb87b9,
+        type: 2}
+      propertyPath: crushEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114206167923780342, guid: 682ad084a388643c3a19a6511aeb87b9, type: 2}
