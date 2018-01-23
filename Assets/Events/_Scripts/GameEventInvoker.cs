@@ -32,7 +32,7 @@ namespace EventObjects {
 		/// </summary>
 		/// <returns><c>true</c> if this instance has events; otherwise, <c>false</c>.</returns>
 		public bool HasEvents() {
-			return gameEvent != null || unityEvent.GetPersistentEventCount() == 0;
+			return gameEvent != null || unityEvent.GetPersistentEventCount() > 0;
 		}
 	}
 

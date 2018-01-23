@@ -1,10 +1,19 @@
 ﻿using UnityEngine;
 using Teams;
+using EventObjects;
 
+/// <summary>
+/// This manages the HP for an object.
+/// </summary>
+[DisallowMultipleComponent]
 public class LifePool : MonoBehaviour {
 
 	[SerializeField] private Resource life;
 	[SerializeField] private Team _myTeam;
+	[SerializeField] private GameEventInvoker hurtEvent;
+	[SerializeField] private GameEventInvoker healEvent;
+	[SerializeField] private GameEventInvoker fullEvent;
+	[SerializeField] private GameEventInvoker emptyEvent;
 
 	public Team myTeam {
 		get { return _myTeam; }
@@ -13,6 +22,9 @@ public class LifePool : MonoBehaviour {
 	private void Start() {
 		life.Maximize();
 	}
+
+
+	#region Hurt functions
 
 	/// <summary>
 	/// Deduct health from this life pool based on the given amount. Only does so if the attacking team is enemies with
@@ -31,6 +43,9 @@ public class LifePool : MonoBehaviour {
 			deltaHP -= life.current;
 		}
 
+		if(changed && deltaHP > 0) {
+		}
+
 		return changed;
 	}
 
@@ -47,12 +62,20 @@ public class LifePool : MonoBehaviour {
 	}
 
 	/// <summary>
-	/// Applies the given damage amount without caring about teams.
+	/// Applies the given damage amount without caring about teams. Note that the absolute value of the damage is taken;
+	/// you CANNOT 'heal' things with this function!
 	/// </summary>
-	/// <param name="damage">Damage.</param>
+	/// <param name="damage">Damage to be dealt.</param>
 	public void Hurt(int damage) {
-		life.Change(-damage);
+		if(life.Change(-Mathf.Abs(damage))) {
+			hurtEvent.Invoke();
+		}
 	}
+
+	#endregion
+
+
+	#region Heal functions
 
 	/// <summary>
 	/// Restore health to this life pool based on the given amount, so long as the healing team is not enemies with this
@@ -71,6 +94,10 @@ public class LifePool : MonoBehaviour {
 			deltaHP = life.current - deltaHP;
 		}
 
+		if(changed && deltaHP > 0) {
+			healEvent.Invoke();
+		}
+
 		return changed;
 	}
 
@@ -87,10 +114,37 @@ public class LifePool : MonoBehaviour {
 	}
 
 	/// <summary>
-	/// Heals by the specified amount without caring about teams.
+	/// Heals by the specified amount without caring about teams. Note that you cannot inflict damage with this; even
+	/// giving this a negative value will still restore by the absolute of the parameter.
 	/// </summary>
 	/// <param name="healAmount">Heal amount.</param>
 	public void Heal(int healAmount) {
-		life.Change(healAmount);
+		if(life.Change(Mathf.Abs(healAmount))) {
+			healEvent.Invoke();
+		}
 	}
+
+	#endregion
+
+
+	#region Event helpers
+
+	private void InvokeHeal() {
+		healEvent.Invoke();
+
+		if(life.current == life.max) {
+			fullEvent.Invoke();
+		}
+	}
+
+	private void InvokeHurt() {
+		hurtEvent.Invoke();
+
+		if(life.current == life.min) {
+			emptyEvent.Invoke();
+		}
+	}
+
+	#endregion
+
 }

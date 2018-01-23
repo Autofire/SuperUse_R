@@ -945,9 +945,9 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 114237169810942008, guid: 682ad084a388643c3a19a6511aeb87b9,
+    - target: {fileID: 114981889419398540, guid: 682ad084a388643c3a19a6511aeb87b9,
         type: 2}
-      propertyPath: crushEvent.m_PersistentCalls.m_Calls.Array.size
+      propertyPath: emptyEvent.unityEvent.m_PersistentCalls.m_Calls.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4307672956056420, guid: 682ad084a388643c3a19a6511aeb87b9, type: 2}
@@ -982,70 +982,65 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 114237169810942008, guid: 682ad084a388643c3a19a6511aeb87b9,
+    - target: {fileID: 114981889419398540, guid: 682ad084a388643c3a19a6511aeb87b9,
         type: 2}
-      propertyPath: crushEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 114237169810942008, guid: 682ad084a388643c3a19a6511aeb87b9,
-        type: 2}
-      propertyPath: crushEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 114237169810942008, guid: 682ad084a388643c3a19a6511aeb87b9,
-        type: 2}
-      propertyPath: crushEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 936596554}
-    - target: {fileID: 114237169810942008, guid: 682ad084a388643c3a19a6511aeb87b9,
-        type: 2}
-      propertyPath: crushEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: Hurt
-      objectReference: {fileID: 0}
-    - target: {fileID: 114237169810942008, guid: 682ad084a388643c3a19a6511aeb87b9,
-        type: 2}
-      propertyPath: crushEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 114237169810942008, guid: 682ad084a388643c3a19a6511aeb87b9,
-        type: 2}
-      propertyPath: crushEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      propertyPath: emptyEvent.unityEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 114206167923780342, guid: 682ad084a388643c3a19a6511aeb87b9, type: 2}
+    - target: {fileID: 114981889419398540, guid: 682ad084a388643c3a19a6511aeb87b9,
+        type: 2}
+      propertyPath: emptyEvent.unityEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114981889419398540, guid: 682ad084a388643c3a19a6511aeb87b9,
+        type: 2}
+      propertyPath: emptyEvent.unityEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 936596553}
+    - target: {fileID: 114981889419398540, guid: 682ad084a388643c3a19a6511aeb87b9,
+        type: 2}
+      propertyPath: emptyEvent.unityEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Die
+      objectReference: {fileID: 0}
+    - target: {fileID: 114981889419398540, guid: 682ad084a388643c3a19a6511aeb87b9,
+        type: 2}
+      propertyPath: emptyEvent.unityEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 114981889419398540, guid: 682ad084a388643c3a19a6511aeb87b9,
+        type: 2}
+      propertyPath: life._current.internalValue
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114237169810942008, guid: 682ad084a388643c3a19a6511aeb87b9,
+        type: 2}
+      propertyPath: crushEvent.unityEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 936596553}
+    - target: {fileID: 114237169810942008, guid: 682ad084a388643c3a19a6511aeb87b9,
+        type: 2}
+      propertyPath: crushEvent.unityEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Die
+      objectReference: {fileID: 0}
+    - target: {fileID: 114237169810942008, guid: 682ad084a388643c3a19a6511aeb87b9,
+        type: 2}
+      propertyPath: crushEvent.unityEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114237169810942008, guid: 682ad084a388643c3a19a6511aeb87b9,
+        type: 2}
+      propertyPath: crushEvent.unityEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 682ad084a388643c3a19a6511aeb87b9, type: 2}
   m_IsPrefabParent: 0
---- !u!1 &936596553 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1856830517714460, guid: 682ad084a388643c3a19a6511aeb87b9,
+--- !u!114 &936596553 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114651927785763832, guid: 682ad084a388643c3a19a6511aeb87b9,
     type: 2}
   m_PrefabInternal: {fileID: 936596552}
---- !u!114 &936596554
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 936596553}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9191a6ca737ca42a8aefdd74b6273c8e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  life:
-    _max:
-      _useInternal: 1
-      internalValue: 5
-      variable: {fileID: 0}
-    _min:
-      _useInternal: 1
-      internalValue: 0
-      variable: {fileID: 0}
-    _current:
-      _useInternal: 1
-      internalValue: 0
-      variable: {fileID: 0}
-  _myTeam: {fileID: 11400000, guid: 3c99bcf250a3747f884cc8fb872d12dc, type: 2}
+  m_Script: {fileID: 11500000, guid: bbfb0711008a943148f31cb9677b73a4, type: 3}
 --- !u!21 &1004964418
 Material:
   serializedVersion: 6
@@ -1724,7 +1719,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1619420264}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -12.46, y: 2.91, z: -10}
+  m_LocalPosition: {x: -9, y: 1.5, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1942661978}

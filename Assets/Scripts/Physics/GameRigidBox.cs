@@ -51,17 +51,16 @@ namespace GamePhysics {
 
 				if(hitInfo.distance == 0 && hitInfo.point == Vector3.zero) {
 
-					string message = 
-						transform.gameObject.name + " is stuck inside an object named " + hitInfo.collider.gameObject.name;
-
 					//if(crushEvent != null) {
 					if(crushEvent.HasEvents()) {
-						Debug.LogWarning(message);
-						//crushEvent.Raise();
 						crushEvent.Invoke();
 					}
 					else {
-						Debug.LogError(message + "\nNo further movement will be made on the object until it's freed.");
+						Debug.LogError(
+							transform.gameObject.name + " is stuck inside an object named "
+							+ hitInfo.collider.gameObject.name 
+							+ "\nNo further movement will be made on the object until it's freed."
+						);
 					}
 
 					targetTravelDist = 0;
