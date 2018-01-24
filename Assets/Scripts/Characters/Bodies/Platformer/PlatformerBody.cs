@@ -6,7 +6,7 @@ using UnityEngine.Assertions;
 namespace Characters.Bodies {
 
 	[RequireComponent(typeof(GamePhysics.GameRigidBody))]
-	public class PlatformerBody : BaseBody, IMoveX, IStand, IJump {
+	public class PlatformerBody : BaseBody, IPlatformer, IHaveDirections {
 
 		[SerializeField] GamePhysics.GameRigidBody gBody;
 
@@ -27,7 +27,7 @@ namespace Characters.Bodies {
 			"Making this zero disables jumps."
 		)]
 		[Range(0f, 10f)]
-		[SerializeField] float jumpHeight;
+		[SerializeField] float _jumpHeight;
 
 		[Tooltip(
 			"How far the character goes at the peek of a full jump. " +
@@ -35,7 +35,7 @@ namespace Characters.Bodies {
 			"Higher values make jumps feel more snappy."
 		)]
 		[Range(0f, 10f)]
-		[SerializeField] float jumpPeekDist;
+		[SerializeField] float _jumpPeekDist;
 
 		[Tooltip(
 			"This determines how fast the character falls " +
@@ -62,9 +62,36 @@ namespace Characters.Bodies {
 		[Tooltip("If true, the will appear to walk even if something stops us from walking.")]
 		[SerializeField] bool animateByIntendedSpeed = true;
 
-
 		float gravity;
-		//bool isJumping;
+
+		#region Properties
+
+		public float jumpMaxHeight {
+			get { return _jumpHeight; }
+		}
+
+		public float jumpPeekDist {
+			get { return _jumpPeekDist; }
+		}
+			
+		public float jumpMaxDist {
+			get {
+				Debug.LogWarning(this.GetType().Name + " has not fully implemented jumpMaxDist; using jumpPeekDist instead");
+				return _jumpPeekDist - (0);
+			}
+		}
+
+		public Vector3 forward {
+			get { return rotationTarget.forward; }
+		}
+
+		public Vector3 right {
+			get { return rotationTarget.right; }
+		}
+
+		public Vector3 up {
+			get { return rotationTarget.up; }
+		}
 
 		/// <summary>
 		/// Gets the magnitude of the jump velocity.
@@ -72,7 +99,7 @@ namespace Characters.Bodies {
 		/// <value>The jump velocity.</value>
 		/// <seealso cref="https://www.youtube.com/watch?v=hG9SzQxaCm8"/>
 		float jumpVelocity {
-			get { return 2 * jumpHeight * walkingSpeed / jumpPeekDist; }
+			get { return 2 * jumpMaxHeight * walkingSpeed / jumpPeekDist; }
 		}
 
 		/// <summary>
@@ -81,7 +108,7 @@ namespace Characters.Bodies {
 		/// <value>The jump gravity.</value>
 		/// <seealso cref="https://www.youtube.com/watch?v=hG9SzQxaCm8"/>
 		float jumpGravity {
-			get { return -2 * jumpHeight * walkingSpeed * walkingSpeed / (jumpPeekDist * jumpPeekDist); }
+			get { return -2 * jumpMaxHeight * walkingSpeed * walkingSpeed / (jumpPeekDist * jumpPeekDist); }
 		}
 
 		/// <summary>
@@ -91,6 +118,8 @@ namespace Characters.Bodies {
 		float normalGravity {
 			get { return normalGravityScale * jumpGravity; }
 		}
+
+		#endregion
 
 		#region Unity events
 		override protected void Awake() {

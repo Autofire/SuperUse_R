@@ -6,6 +6,7 @@ using Characters.Brains;
 namespace Characters.Bodies {
 
 	// This is an adaptation of code from https://bitbucket.org/richardfine/scriptableobjectdemo
+
 	public class BaseBody : MonoBehaviour {
 
 		#region Brain

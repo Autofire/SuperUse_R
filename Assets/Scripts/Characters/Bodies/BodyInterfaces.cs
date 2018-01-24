@@ -4,6 +4,8 @@ using UnityEngine;
 
 namespace Characters.Bodies {
 
+	#region Basic interfaces 
+
 	public interface IStand {
 		/// <summary>
 		/// If we're standing, then this returns true. Otherwise, we're airborne or something.
@@ -31,6 +33,10 @@ namespace Characters.Bodies {
 		/// all. Because of this, don't depend on this getting called.
 		/// </summary>
 		void JumpEnd();
+
+		float jumpMaxHeight { get; }
+		float jumpPeekDist  { get; }
+		float jumpMaxDist   { get; }
 	}
 
 	public interface IMoveX {
@@ -48,5 +54,36 @@ namespace Characters.Bodies {
 		/// <param name="magnitude">Magnitude of the movement; can be between -1 and 1, inclusive.</param>
 		void MoveY(float magnitude);
 	}
+
+	public interface IMoveOnPathTowards {
+		/// <summary>
+		/// Move towards some point, using this body's own methods of getting there.
+		/// </summary>
+		/// <returns>True if we predict that we can reach the location; false otherwise.</returns>
+		/// <param name="target">Target position.</param>
+		bool MoveOnPathTowards(Vector3 target);
+
+		/// <summary>
+		/// Move towards some point, using this body's own methods of getting there.
+		/// </summary>
+		/// <returns>True if we predict that we can reach the location; false otherwise.</returns>
+		/// <param name="target">Target transform.</param>
+		bool MoveOnPathTowards(Transform target);
+	}
+
+	public interface IHaveDirections {
+		Vector3 forward { get; }
+		Vector3 right   { get; }
+		Vector3 up      { get; }
+	}
+
+	#endregion
+
+	#region Complex interfaces
+
+	public interface IPlatformer : IStand, IMoveX, IJump
+	{ }
+
+	#endregion
 
 } // End namespace

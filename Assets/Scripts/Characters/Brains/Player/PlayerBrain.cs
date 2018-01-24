@@ -19,6 +19,7 @@ namespace Characters.Brains.Players {
 
 		override public void Think(Bodies.BaseBody body) {
 			IJump bodyJump = body as IJump;
+			IMoveX bodyMoveX = body as IMoveX;
 
 			if(bodyJump != null) {
 				if(Input.GetButtonDown(jumpButtonName)) {
@@ -28,8 +29,6 @@ namespace Characters.Brains.Players {
 					bodyJump.JumpEnd();
 				}
 			}
-
-			IMoveX bodyMoveX = body as IMoveX;
 
 			if(bodyMoveX != null) {
 				bodyMoveX.MoveX(Input.GetAxis(xAxisName));

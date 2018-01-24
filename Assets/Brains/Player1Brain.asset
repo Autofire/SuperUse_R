@@ -9,7 +9,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d0a9fad0c0a8d41638df8c0d33d4450c, type: 3}
-  m_Name: TestPlayerBrain
+  m_Name: Player1Brain
   m_EditorClassIdentifier: 
   xAxisName: Horizontal
   yAxisName: Vertical
