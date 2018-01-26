@@ -50,6 +50,12 @@ namespace Characters.Bodies {
 		[SerializeField] Transform rotationTarget;
 		[SerializeField] Vector3 rightRotation;
 		[SerializeField] Vector3 leftRotation;
+		[Tooltip("If true, the reported 'forward' vector is inverted.")]
+		[SerializeField] bool invertForward;
+		[Tooltip("If true, the reported 'right' vector is inverted.")]
+		[SerializeField] bool invertRight;
+		[Tooltip("If true, the reported 'up' vector is inverted.")]
+		[SerializeField] bool invertUp;
 
 		[Space(10)]
 		[SerializeField] Animator animator;
@@ -82,15 +88,36 @@ namespace Characters.Bodies {
 		}
 
 		public Vector3 forward {
-			get { return rotationTarget.forward; }
+			get {
+				if(!invertForward) {
+					return rotationTarget.forward;
+				}
+				else {
+					return -rotationTarget.forward;
+				}
+			}
 		}
 
 		public Vector3 right {
-			get { return rotationTarget.right; }
+			get {
+				if(!invertRight) {
+					return rotationTarget.right;
+				}
+				else {
+					return -rotationTarget.right;
+				}
+			}
 		}
 
 		public Vector3 up {
-			get { return rotationTarget.up; }
+			get {
+				if(!invertUp) {
+					return rotationTarget.up;
+				}
+				else {
+					return -rotationTarget.up;
+				}
+			}
 		}
 
 		/// <summary>

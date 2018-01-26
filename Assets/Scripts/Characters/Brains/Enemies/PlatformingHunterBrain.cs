@@ -25,6 +25,7 @@ namespace Characters.Brains.Players {
 
 				if(bodyMoveX != null) {
 
+
 					if(body.transform.position.x - chaseTarget.constValue.position.x > 0) {
 						bodyMoveX.MoveX(-1f);
 					}
@@ -32,11 +33,19 @@ namespace Characters.Brains.Players {
 						bodyMoveX.MoveX(1f);
 					}
 
+
 				}
 
 				if(directions != null) {
-					Debug.Log(directions.forward);
+					//Debug.Log(directions.forward);
+
+					Vector3 heading = chaseTarget.constValue.position - body.transform.position;
+					float dot = Vector3.Dot(heading, directions.forward);
+
+					Debug.Log(dot);
+					//Debug.Log(directions.right);
 				}
+
 			}
 		}
 	}
