@@ -3,6 +3,7 @@ using UnityEditor;
 using VariableObjects;
 
 // DO NOT REMOVE - Automatic insertion point
+[CustomPropertyDrawer(typeof(Vector3Reference))] [CustomPropertyDrawer(typeof(Vector3ConstReference))]
 [CustomPropertyDrawer(typeof(GameObjectReference))] [CustomPropertyDrawer(typeof(GameObjectConstReference))]
 [CustomPropertyDrawer(typeof(IntReference))] [CustomPropertyDrawer(typeof(IntConstReference))]
 [CustomPropertyDrawer(typeof(ViveControllerAssistantReference))] [CustomPropertyDrawer(typeof(ViveControllerAssistantConstReference))]

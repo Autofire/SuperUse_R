@@ -24,24 +24,25 @@ namespace SuperUser {
 		[Tooltip("Once the charge is maxed out, the vibration will oscillate for this long before returning to the normal amount.")]
 		[SerializeField] private FloatConstReference maxChargeHapticAlertDuration;
 
-		[Header("Object setup")]
+		[Header("Misc setup")]
 		[SerializeField] private VirusRespawner otherRespawner;
 		[SerializeField] private TransformConstReference respawnTransform;
 		[SerializeField] private GameObjectConstReference respawnReadyObject;
 		[SerializeField] private ViveControllerAssistantReference assistant;
 
+		[Space(10)]
+		[SerializeField] private GameObjectConstReference chargeSuccessObject;
+		[SerializeField] private GameObjectConstReference chargeFailureObject;
+
+
 		private float chargeStartTime;
-		private bool isCharging;
+
+		// TODO Combine these two bools into an enum
+		private bool isCharging;	
 		private bool isFullyCharged;
+
 		private GameObject chargeObject;
 		private Vector3 initChargeObjScale;
-
-
-		#region Properties
-
-
-
-		#endregion
 
 
 
@@ -123,17 +124,42 @@ namespace SuperUser {
 
 
 		private void EndRespawnCharge() {
-			if(Time.time > chargeStartTime + chargeDuration.constValue) {
-				Debug.Log("Heroes never die!\n" + (chargeStartTime + chargeDuration.constValue - Time.time).ToString());
+			Destroy(chargeObject);
+			chargeObject = null;
+
+			GameObject endChargePrefab = null;
+			GameObject endChargeObject = null;
+
+			if(isFullyCharged && chargeSuccessObject.constValue != null) {
+				//Debug.Log("Heroes never die!\n" + (chargeStartTime + chargeDuration.constValue - Time.time).ToString());
+				endChargePrefab = chargeSuccessObject.constValue;
 			}
-			else {
-				Debug.Log("Oops\n" + (chargeStartTime + chargeDuration.constValue - Time.time).ToString());
+			else if(chargeFailureObject.constValue != null) {
+				//Debug.Log("Oops\n" + (chargeStartTime + chargeDuration.constValue - Time.time).ToString());
+				endChargePrefab = chargeFailureObject.constValue;
+			}
+
+			// Only run this if we made something in the previous step
+			if(endChargePrefab != null) {
+				endChargeObject =
+					Instantiate(
+						endChargePrefab,
+						respawnTransform.constValue.position,
+						respawnTransform.constValue.rotation,
+						respawnTransform.constValue
+					) as GameObject;
+				
+				// We want to ensure the new object inherits the previous scale.
+				endChargeObject.transform.localScale =
+					initChargeObjScale
+					* Mathf.Lerp( initScaleFactor.constValue, finalScaleFactor.constValue, CalcRampedCharge(Time.time - chargeStartTime) );
+
+				// Finally, un-parent the object, now that we have the scale correctly set
+				endChargeObject.transform.parent = null;
 			}
 
 			isCharging = false;
 			isFullyCharged = false;
-
-			Destroy(chargeObject);
 		}
 
 		private void ProvideHapticFeedback(float chargeTime) {
