@@ -19,7 +19,7 @@ namespace Characters.Brains.Players {
 
 			if(chaseTarget.constValue != null) {
 
-				IJump bodyJump = body as IJump;
+				//IJump bodyJump = body as IJump;
 				IMoveX bodyMoveX = body as IMoveX;
 				IHaveDirections directions = body as IHaveDirections;
 

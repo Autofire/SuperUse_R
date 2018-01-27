@@ -8,23 +8,40 @@ namespace SuperUser {
 
 		[SerializeField]
 		private FloatConstReference chargeDuration;
-		private GameObjectConstReference chargeObject;
 
-		[Header("Haptic feedback")]
-		[Tooltip("This should be something between 0 and 1")]
-		[SerializeField] private FloatConstReference maxChargeStrength;
+		[Header("Visual effects and haptic feedback")]
 		[Tooltip("This determines how 'smooth' the charge feels.")]
 		[SerializeField] private IntConstReference rampExponent;
+
+		[Space(5)]
+		[SerializeField] private GameObjectConstReference respawnEffectObject;
+		[SerializeField] private FloatConstReference initScaleFactor;
+		[SerializeField] private FloatConstReference finalScaleFactor;
+
+		[Space(5)]
+		[Tooltip("This should be something between 0 and 1")]
+		[SerializeField] private FloatConstReference maxChargeHapticStrength;
 		[Tooltip("Once the charge is maxed out, the vibration will oscillate for this long before returning to the normal amount.")]
-		[SerializeField] private FloatConstReference maxChargeAlertDuration;
+		[SerializeField] private FloatConstReference maxChargeHapticAlertDuration;
 
 		[Header("Object setup")]
 		[SerializeField] private VirusRespawner otherRespawner;
 		[SerializeField] private TransformConstReference respawnTransform;
+		[SerializeField] private GameObjectConstReference respawnPlayetObject;
 		[SerializeField] private ViveControllerAssistantReference assistant;
 
-		float chargeStartTime;
-		bool isCharging;
+		private float chargeStartTime;
+		private bool isCharging;
+		private GameObject chargeObject;
+		private Vector3 initChargeObjScale;
+
+
+		#region Properties
+
+
+
+		#endregion
+
 
 
 		#region Unity events
@@ -32,10 +49,10 @@ namespace SuperUser {
 		private void Awake() {
 			isCharging = false;
 
-			if(maxChargeStrength.constValue < 0 || maxChargeStrength.constValue > 1) {
+			if(maxChargeHapticStrength.constValue < 0 || maxChargeHapticStrength.constValue > 1) {
 				Debug.LogWarning(
 					"You have maxChargeStrength in " + this.GetType().Name + " (attached to " + gameObject.name + ") "
-					+ "has a value of " + maxChargeStrength.constValue + " when a value between 0 and 1 was expected"
+					+ "has a value of " + maxChargeHapticStrength.constValue + " when a value between 0 and 1 was expected"
 				);
 			}
 		}
@@ -55,7 +72,7 @@ namespace SuperUser {
 			}
 
 			if(isCharging) {
-				ProvideHapticFeedback(Time.time - chargeStartTime);
+				ContinueRespawnCharge();
 			}
 		}
 
@@ -67,7 +84,21 @@ namespace SuperUser {
 		private void BeginRespawnCharge() {
 			isCharging = true;
 			chargeStartTime = Time.time;
+			chargeObject = Instantiate(respawnEffectObject.constValue, respawnTransform.constValue) as GameObject;
+			initChargeObjScale = chargeObject.transform.localScale;
 		}
+
+
+		private void ContinueRespawnCharge() {
+			float chargeTime = Time.time - chargeStartTime;
+
+			ProvideHapticFeedback(chargeTime);
+
+			chargeObject.transform.localScale =
+				initChargeObjScale
+				* Mathf.Lerp( initScaleFactor.constValue, finalScaleFactor.constValue, CalcRampedCharge(chargeTime) );
+		}
+
 
 		private void EndRespawnCharge() {
 			if(Time.time > chargeStartTime + chargeDuration.constValue) {
@@ -78,10 +109,12 @@ namespace SuperUser {
 			}
 
 			isCharging = false;
+
+			Destroy(chargeObject);
 		}
 
 		private void ProvideHapticFeedback(float chargeTime) {
-			if(chargeTime > chargeDuration.constValue && chargeTime < chargeDuration.constValue + maxChargeAlertDuration.constValue) {
+			if(chargeTime > chargeDuration.constValue && chargeTime < chargeDuration.constValue + maxChargeHapticAlertDuration.constValue) {
 				// We've just hit the peak of the charge. We want to do a different kind of vibration.
 
 				// We use PerlinNoise here because it gives a nice, consistent "rumble"
@@ -89,16 +122,20 @@ namespace SuperUser {
 			}
 			else {
 				// We're charging or have finished charging for a while now.
-				float charge = Mathf.Clamp01(chargeTime / chargeDuration.constValue);
-
-				float rampedCharge = 1f;
-
-				for(int i = 0; i < rampExponent.constValue; i++) {
-					rampedCharge *= charge;
-				}
-
-				assistant.value.PulseVibration(Mathf.Min(rampedCharge, maxChargeStrength.constValue));
+				assistant.value.PulseVibration(Mathf.Min(CalcRampedCharge(chargeTime), maxChargeHapticStrength.constValue));
 			}
+		}
+
+		private float CalcRampedCharge(float chargeTime) {
+			float charge = Mathf.Clamp01(chargeTime / chargeDuration.constValue);
+
+			float rampedCharge = 1f;
+
+			for(int i = 0; i < rampExponent.constValue; i++) {
+				rampedCharge *= charge;
+			}
+
+			return rampedCharge;
 		}
 
 		#endregion
