@@ -27,11 +27,12 @@ namespace SuperUser {
 		[Header("Object setup")]
 		[SerializeField] private VirusRespawner otherRespawner;
 		[SerializeField] private TransformConstReference respawnTransform;
-		[SerializeField] private GameObjectConstReference respawnPlayetObject;
+		[SerializeField] private GameObjectConstReference respawnReadyObject;
 		[SerializeField] private ViveControllerAssistantReference assistant;
 
 		private float chargeStartTime;
 		private bool isCharging;
+		private bool isFullyCharged;
 		private GameObject chargeObject;
 		private Vector3 initChargeObjScale;
 
@@ -66,12 +67,10 @@ namespace SuperUser {
 			if(assistant.value.Controller.GetPressDown(SteamVR_Controller.ButtonMask.Trigger)) {
 				BeginRespawnCharge();
 			}
-
-			if(assistant.value.Controller.GetPressUp(SteamVR_Controller.ButtonMask.Trigger)) {
+			else if(assistant.value.Controller.GetPressUp(SteamVR_Controller.ButtonMask.Trigger)) {
 				EndRespawnCharge();
 			}
-
-			if(isCharging) {
+			else if(isCharging) {
 				ContinueRespawnCharge();
 			}
 		}
@@ -84,13 +83,36 @@ namespace SuperUser {
 		private void BeginRespawnCharge() {
 			isCharging = true;
 			chargeStartTime = Time.time;
-			chargeObject = Instantiate(respawnEffectObject.constValue, respawnTransform.constValue) as GameObject;
+
+			chargeObject = Instantiate(
+				respawnEffectObject.constValue,
+				respawnTransform.constValue.position,
+				respawnTransform.constValue.rotation,
+				respawnTransform.constValue
+			) as GameObject;
+
 			initChargeObjScale = chargeObject.transform.localScale;
+
+			ContinueRespawnCharge();
 		}
 
 
 		private void ContinueRespawnCharge() {
 			float chargeTime = Time.time - chargeStartTime;
+
+			if(!isFullyCharged && chargeTime >= chargeDuration.constValue) {
+				isFullyCharged = true;
+				Destroy(chargeObject);
+
+				chargeObject = Instantiate(
+					respawnReadyObject.constValue,
+					respawnTransform.constValue.position,
+					respawnTransform.constValue.rotation,
+					respawnTransform.constValue
+				) as GameObject;
+
+				initChargeObjScale = chargeObject.transform.localScale;
+			}
 
 			ProvideHapticFeedback(chargeTime);
 
@@ -109,6 +131,7 @@ namespace SuperUser {
 			}
 
 			isCharging = false;
+			isFullyCharged = false;
 
 			Destroy(chargeObject);
 		}

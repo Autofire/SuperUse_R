@@ -24,8 +24,10 @@ public abstract class ColorableComponentFXHandler : AudioFX {
 	}
 
 	// Do this in Start() in case there is something else that sets the color upon the object's creation
-	protected virtual void Start() {
+	protected override void OnEnable() {
 		baseColor = targetCC.color;
+
+		base.OnEnable();
 	}
 
 	// FIXME: ContextMenu doesn't work.
