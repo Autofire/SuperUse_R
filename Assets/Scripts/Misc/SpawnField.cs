@@ -22,6 +22,7 @@ public class SpawnField : MonoBehaviour {
 		//Vector3 attemptedUpInPlane = Vector3.ProjectOnPlane(attemptedUp, transform.forward);
 
 		Vector3 targetUp;
+		Quaternion targetRot;
 
 		float proximityToUp = Vector3.Dot(attemptedUp, transform.up);
 		float proximityToRight = Vector3.Dot(attemptedUp, transform.right);
@@ -35,6 +36,13 @@ public class SpawnField : MonoBehaviour {
 			targetUp = transform.right * Mathf.Sign(proximityToRight);
 		}
 
-		return Quaternion.FromToRotation(Vector3.up, targetUp);
+		targetRot = Quaternion.FromToRotation(Vector3.up, targetUp);
+
+		// HACK This probably breaks some of the more creative rotations
+		if(Mathf.Approximately(targetRot.eulerAngles.x, 180f)) {
+			targetRot = Quaternion.Euler(0f, 0f, 180f);
+		}
+
+		return targetRot;
 	}
 }

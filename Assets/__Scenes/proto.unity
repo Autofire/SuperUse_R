@@ -1038,7 +1038,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4138900612149866, guid: b68674814d650eb49b82d2c8ed8073d4, type: 2}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4138900612149866, guid: b68674814d650eb49b82d2c8ed8073d4, type: 2}
       propertyPath: m_LocalRotation.y
@@ -1050,11 +1050,23 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4138900612149866, guid: b68674814d650eb49b82d2c8ed8073d4, type: 2}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4138900612149866, guid: b68674814d650eb49b82d2c8ed8073d4, type: 2}
       propertyPath: m_RootOrder
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4138900612149866, guid: b68674814d650eb49b82d2c8ed8073d4, type: 2}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1646079117422046, guid: b68674814d650eb49b82d2c8ed8073d4, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4138900612149866, guid: b68674814d650eb49b82d2c8ed8073d4, type: 2}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 180
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b68674814d650eb49b82d2c8ed8073d4, type: 2}
@@ -1123,8 +1135,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa7155796051b734daa718462081dc5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_BindingMode: 1
-  m_FollowOffset: {x: 0, y: 0, z: -11}
+  m_BindingMode: 3
+  m_FollowOffset: {x: 0, y: 0, z: -10}
   m_XDamping: 1
   m_YDamping: 3.25
   m_ZDamping: 1
