@@ -38,9 +38,9 @@ public class SpawnField : MonoBehaviour {
 
 		targetRot = Quaternion.FromToRotation(Vector3.up, targetUp);
 
-		// HACK This probably breaks some of the more creative rotations
-		if(Mathf.Approximately(targetRot.eulerAngles.x, 180f)) {
-			targetRot = Quaternion.Euler(0f, 0f, 180f);
+		// HACK This probably breaks some of the more creative rotations, but it stops the camera from totally breaking
+		if(targetRot.x == 1.0f) {
+			targetRot = new Quaternion(0f, 0f, 1f, 0f);
 		}
 
 		return targetRot;
