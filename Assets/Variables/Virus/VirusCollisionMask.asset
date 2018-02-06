@@ -13,4 +13,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _value:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 4096

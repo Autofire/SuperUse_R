@@ -44,6 +44,7 @@ public class LifePool : MonoBehaviour {
 		}
 
 		if(changed && deltaHP > 0) {
+			InvokeHurt();
 		}
 
 		return changed;
@@ -68,7 +69,7 @@ public class LifePool : MonoBehaviour {
 	/// <param name="damage">Damage to be dealt.</param>
 	public void Hurt(int damage) {
 		if(life.Change(-Mathf.Abs(damage))) {
-			hurtEvent.Invoke();
+			InvokeHurt();
 		}
 	}
 
@@ -95,7 +96,7 @@ public class LifePool : MonoBehaviour {
 		}
 
 		if(changed && deltaHP > 0) {
-			healEvent.Invoke();
+			InvokeHeal();
 		}
 
 		return changed;
@@ -120,7 +121,7 @@ public class LifePool : MonoBehaviour {
 	/// <param name="healAmount">Heal amount.</param>
 	public void Heal(int healAmount) {
 		if(life.Change(Mathf.Abs(healAmount))) {
-			healEvent.Invoke();
+			InvokeHeal();
 		}
 	}
 
