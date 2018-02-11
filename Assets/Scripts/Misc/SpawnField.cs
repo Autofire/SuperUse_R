@@ -14,7 +14,8 @@ public class SpawnField : MonoBehaviour {
 		
 	public Vector3 AlignPosition(Vector3 attemptedPos) {
 		// TODO Make this instead clamp the player down to a location; centering them is a little weird.
-		return box.center;
+		//return box.center;
+		return Vector3.ProjectOnPlane(attemptedPos, transform.forward);
 	}
 
 	public Quaternion AlignRotation(Vector3 attemptedUp) {
