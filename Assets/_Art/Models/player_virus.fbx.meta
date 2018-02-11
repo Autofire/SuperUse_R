@@ -28,6 +28,7 @@ ModelImporter:
     100040: Vir_Body
     100042: Vir_Legs
     100044: Vir_Rig
+    100046: Rear
     400000: Body
     400002: Center
     400004: FootBk_L
@@ -51,6 +52,7 @@ ModelImporter:
     400040: Vir_Body
     400042: Vir_Legs
     400044: Vir_Rig
+    400046: Rear
     2100000: virus_mat
     2100002: virus_glow_mat
     4300000: Vir_Body
