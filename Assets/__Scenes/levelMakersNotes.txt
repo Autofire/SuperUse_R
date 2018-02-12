@@ -1,0 +1,1 @@
+36 is a good width for a level segment. Any bigger and it gets harder to reach across the span of the level.
