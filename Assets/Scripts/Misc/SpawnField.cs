@@ -4,6 +4,8 @@ using UnityEngine.Assertions;
 [RequireComponent(typeof(BoxCollider))]
 public class SpawnField : MonoBehaviour {
 
+	[SerializeField] private bool useRotationHack = true;
+
 	private BoxCollider box;
 
 	private void Awake() {
@@ -14,7 +16,8 @@ public class SpawnField : MonoBehaviour {
 		
 	public Vector3 AlignPosition(Vector3 attemptedPos) {
 		// TODO Make this instead clamp the player down to a location; centering them is a little weird.
-		return box.center;
+		return transform.position;
+		//return Vector3.ProjectOnPlane(attemptedPos, transform.forward);
 	}
 
 	public Quaternion AlignRotation(Vector3 attemptedUp) {
@@ -39,10 +42,11 @@ public class SpawnField : MonoBehaviour {
 		targetRot = Quaternion.FromToRotation(Vector3.up, targetUp);
 
 		// HACK This probably breaks some of the more creative rotations, but it stops the camera from totally breaking
-		if(targetRot.x == 1.0f) {
+		if(useRotationHack && targetRot.x == 1.0f) {
+			Debug.Log("Overriding rotation");
 			targetRot = new Quaternion(0f, 0f, 1f, 0f);
 		}
 
-		return targetRot;
+		return targetRot * transform.rotation;
 	}
 }
