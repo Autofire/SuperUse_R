@@ -54,6 +54,8 @@ public class SteamVR_Camera : MonoBehaviour
 		{
 			if (head != null)
 			{
+
+				UnityEngine.Assertions.Assert.IsNotNull(head.GetComponent<SteamVR_TrackedObject>());
 				head.GetComponent<SteamVR_TrackedObject>().enabled = false;
 			}
 

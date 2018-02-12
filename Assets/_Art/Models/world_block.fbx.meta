@@ -1,42 +1,24 @@
 fileFormatVersion: 2
-guid: 57c871b4353cf0545bd52920ef8548f8
-timeCreated: 1517361837
+guid: eb9f16b14ef1c8048a84a1e1e2535ac1
+timeCreated: 1518405427
 licenseType: Free
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
-    100000: Cube
-    100002: //RootNode
-    100004: Shield
-    100006: ShieldBack
-    100008: ShieldEye
-    400000: Cube
-    400002: //RootNode
-    400004: Shield
-    400006: ShieldBack
-    400008: ShieldEye
-    2100000: enemy_wing_mat
-    2100002: enemy_mat
-    2100004: enemy_dark_mat
-    2100006: enemy_eye_mat
-    2300000: Cube
-    2300002: Shield
-    2300004: ShieldBack
-    2300006: ShieldEye
-    3300000: Cube
-    3300002: Shield
-    3300004: ShieldBack
-    3300006: ShieldEye
+    100000: //RootNode
+    400000: //RootNode
+    2100000: world_floor
+    2100002: world_wall
+    2100004: world_glow
+    2300000: //RootNode
+    3300000: //RootNode
     4300000: Cube
-    4300002: ShieldBack
-    4300004: ShieldEye
-    4300006: Shield
   externalObjects: {}
   materials:
-    importMaterials: 1
+    importMaterials: 0
     materialName: 0
     materialSearch: 1
-    materialLocation: 0
+    materialLocation: 1
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
@@ -86,7 +68,7 @@ ModelImporter:
     normalImportMode: 0
     tangentImportMode: 3
     normalCalculationMode: 4
-  importAnimation: 1
+  importAnimation: 0
   copyAvatar: 0
   humanDescription:
     serializedVersion: 2

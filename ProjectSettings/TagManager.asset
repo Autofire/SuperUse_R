@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Hackers
+  - projectile
+  - FxTemporaire
   layers:
   - Default
   - TransparentFX
@@ -20,9 +22,9 @@ TagManager:
   - RightHand
   - Terrain
   - AntiVirus
-  - 
-  - 
-  - 
+  - DesktopOnlyProp
+  - VROnlyProp
+  - InvisibleAntiVirus
   - 
   - 
   - 
