@@ -9,12 +9,12 @@ public class RaiseEventOnTrigger : MonoBehaviour {
 
 	// TODO Create option for triggering one of the events on disable
 
-	[SerializeField] GameEvent onEnter;
+	[SerializeField] GameEventInvoker onEnter;
 	[Tooltip("Triggered only if something enters and nothing else has currently entered.")]
-	[SerializeField] GameEvent onLoneEnter;
-	[SerializeField] GameEvent onExit;
+	[SerializeField] GameEventInvoker onLoneEnter;
+	[SerializeField] GameEventInvoker onExit;
 	[Tooltip("Only gets raised when the there all objects leave.")]
-	[SerializeField] GameEvent onAllExit;
+	[SerializeField] GameEventInvoker onAllExit;
 
 	int inhabitantCount;
 
