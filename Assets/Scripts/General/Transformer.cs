@@ -9,7 +9,8 @@ public class Transformer : MonoBehaviour {
 
 	void Update () {
 		transform.position += moveSpeed.constValue * Time.deltaTime;
-		transform.Rotate(rotationSpeed.constValue * Time.deltaTime);
+		//transform.Rotate(rotationSpeed.constValue * Time.deltaTime);
+		transform.localRotation = transform.localRotation * Quaternion.Euler(rotationSpeed.constValue * Time.deltaTime);
 		transform.localScale += scaleSpeed.constValue * Time.deltaTime;
 	}
 }

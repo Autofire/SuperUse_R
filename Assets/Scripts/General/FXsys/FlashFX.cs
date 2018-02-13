@@ -6,6 +6,7 @@ public class FlashFX : ColorableComponentFXHandler {
 
 	[SerializeField] Gradient	flashGradient;
 	[SerializeField] float		flashDuration;
+	[SerializeField] bool		repeatFlash = false;
 
 	IEnumerator coroutine = null;
 	bool isPlaying = false;
@@ -40,15 +41,17 @@ public class FlashFX : ColorableComponentFXHandler {
 
 	protected IEnumerator Flash() {
 
-		float startTime = Time.time;
+		do {	// while(repeatFlash)
+			float startTime = Time.time;
 
-		while(Time.time < startTime + flashDuration) {
-			float runTime = Time.time - startTime;
+			while(Time.time < startTime + flashDuration) {
+				float runTime = Time.time - startTime;
 
-			targetCC.color = flashGradient.Evaluate(runTime / flashDuration);
+				targetCC.color = flashGradient.Evaluate(runTime / flashDuration);
 
-			yield return null;
-		}
+				yield return null;
+			}
+		} while(repeatFlash);
 
 		Stop();
 	}
