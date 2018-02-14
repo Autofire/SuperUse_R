@@ -78,7 +78,7 @@ Material:
     - _BumpScale: 1
     - _ColorMask: 15
     - _Cutoff: 0.035
-    - _Darken: 0.641
+    - _Darken: 0.511
     - _DetailNormalMapScale: 1
     - _DstBlend: 10
     - _Emission: 0.01
@@ -90,7 +90,7 @@ Material:
     - _Mode: 3
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _SeeThru: 0.358
+    - _SeeThru: 0.693
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
@@ -113,6 +113,7 @@ Material:
     - _Color: {r: 1, g: 0.68275857, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 0.5}
     - _EmissionColorUI: {r: 1, g: 1, b: 1, a: 1}
+    - _SceneTint: {r: 1, g: 1, b: 1, a: 1}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
     - _Specular: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 0.7867738, g: 0.5544187, b: 0.13885644, a: 0.45490196}

@@ -32,7 +32,11 @@ namespace Characters.Bodies {
 			base.Update();
 
 			if(dampingScale.constValue != 0f) {
-				gBody.velocity = Vector3.MoveTowards(gBody.velocity, Vector3.zero, dampingScale.constValue * Time.deltaTime);
+				gBody.velocity = new Vector3(
+					Mathf.MoveTowards(gBody.velocity.x, 0, dampingScale.constValue * Time.deltaTime),
+					Mathf.MoveTowards(gBody.velocity.y, 0, dampingScale.constValue * Time.deltaTime),
+					Mathf.MoveTowards(gBody.velocity.z, 0, dampingScale.constValue * Time.deltaTime)
+				);
 			}
 
 			Debug.Log(gBody.velocity);
@@ -43,7 +47,13 @@ namespace Characters.Bodies {
 		#region IMoveX implementation
 
 		public void MoveX (float magnitude) {
-			gBody.velocity = gBody.velocity + (Vector3.right * magnitude * moveSpeedX.constValue);
+			//gBody.velocity = gBody.velocity + (Vector3.right * magnitude * moveSpeedX.constValue);
+			gBody.velocity = new Vector3(
+				magnitude * moveSpeedX.constValue,
+				gBody.velocity.y,
+				gBody.velocity.z
+			);
+
 		}
 
 		#endregion
@@ -52,7 +62,12 @@ namespace Characters.Bodies {
 		#region IMoveY implementation
 
 		public void MoveY (float magnitude) {
-			gBody.velocity = gBody.velocity + (Vector3.up * magnitude * moveSpeedY.constValue);
+			//gBody.velocity = gBody.velocity + (Vector3.up * magnitude * moveSpeedY.constValue);
+			gBody.velocity = new Vector3(
+				gBody.velocity.x,
+				magnitude * moveSpeedY.constValue,
+				gBody.velocity.z
+			);
 		}
 
 		#endregion
