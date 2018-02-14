@@ -29,14 +29,15 @@ public class SpawnAndAlignObject : MonoBehaviour {
 				Vector3 position = field.AlignPosition(transform.position);
 				Quaternion rotation = field.AlignRotation(transform.up);
 
-				#pragma warning disable CS0219
+#pragma warning disable CS0219
+#pragma warning disable CS1692
 				GameObject newObject = Instantiate(
 					objPrefab.constValue,
 					position,
 					rotation,
 					null
 				) as GameObject;
-				#pragma warning restore
+#pragma warning restore
 
 				MortalityHandler.Kill(gameObject);
 			}
