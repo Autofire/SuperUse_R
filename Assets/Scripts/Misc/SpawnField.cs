@@ -4,7 +4,10 @@ using UnityEngine.Assertions;
 [RequireComponent(typeof(BoxCollider))]
 public class SpawnField : MonoBehaviour {
 
+	[Tooltip("Turn this on if, when the player is spawned, the camera points the wrong way.")]
 	[SerializeField] private bool useRotationHack = true;
+	[Tooltip("Turn this off if using some non-90 degree angles. Can break certain orientations.")]
+	[SerializeField] private bool applyMyRotation = true;
 
 	private BoxCollider box;
 
@@ -39,7 +42,7 @@ public class SpawnField : MonoBehaviour {
 			targetUp = transform.right * Mathf.Sign(proximityToRight);
 		}
 
-		targetRot = Quaternion.FromToRotation(Vector3.up, targetUp);
+		targetRot = Quaternion.FromToRotation(Vector3.up, targetUp);	// Want rotation from Vector3.up (the default up) into targetUp
 
 		// HACK This probably breaks some of the more creative rotations, but it stops the camera from totally breaking
 		if(useRotationHack && targetRot.x == 1.0f) {
@@ -47,6 +50,11 @@ public class SpawnField : MonoBehaviour {
 			targetRot = new Quaternion(0f, 0f, 1f, 0f);
 		}
 
-		return targetRot * transform.rotation;
+		// This fixes some of the more creative rotations
+		if(applyMyRotation) {
+			targetRot = targetRot * transform.rotation;
+		}
+
+		return targetRot;
 	}
 }

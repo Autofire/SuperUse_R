@@ -10,8 +10,6 @@ public class PickupController : MonoBehaviour {
 
 	private void Awake() {
 		Assert.IsNotNull(countVariable);
-
-		countVariable.value = 0;
 	}
 
 	private void Start() {

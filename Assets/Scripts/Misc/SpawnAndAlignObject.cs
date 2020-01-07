@@ -30,7 +30,7 @@ public class SpawnAndAlignObject : MonoBehaviour {
 				Quaternion rotation = field.AlignRotation(transform.up);
 
 #pragma warning disable CS0219
-#pragma warning disable CS1692
+//#pragma warning disable CS1692
 				GameObject newObject = Instantiate(
 					objPrefab.constValue,
 					position,
