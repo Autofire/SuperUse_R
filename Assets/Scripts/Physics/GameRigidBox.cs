@@ -136,7 +136,7 @@ namespace GamePhysics {
 
 			hitInfoAr = Physics.BoxCastAll(
 				center:       transform.position,   halfExtents:             castBoxSize,
-				direction:    direction,            layermask:               collisionMask.constValue,
+				direction:    direction,            layerMask:               collisionMask.constValue,
 				orientation:  transform.rotation,   queryTriggerInteraction: QueryTriggerInteraction.Ignore,
 				maxDistance:  distance
 			);
